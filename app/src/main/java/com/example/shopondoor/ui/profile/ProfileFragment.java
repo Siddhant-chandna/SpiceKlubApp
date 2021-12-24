@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -41,6 +42,7 @@ public class ProfileFragment extends Fragment {
 
     CircleImageView profileimg;
     Button update;
+    EditText name,address,email,phone;
 
     FirebaseStorage storage;
     FirebaseAuth auth;
@@ -56,8 +58,10 @@ public class ProfileFragment extends Fragment {
         storage=FirebaseStorage.getInstance();
 
         profileimg=root.findViewById(R.id.profile_img);
-        TextView name=root.findViewById(R.id.profile_name);
-        TextView email=root.findViewById(R.id.profile_email);
+         name=root.findViewById(R.id.profile_name);
+         email=root.findViewById(R.id.profile_email);
+         phone=root.findViewById(R.id.profile_phone);
+         address=root.findViewById(R.id.profile_address);
         update=root.findViewById(R.id.profile_update);
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
@@ -97,7 +101,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void updateUserProfile() {
-
     }
 
     @Override

@@ -1,23 +1,27 @@
 package com.example.shopondoor.models;
 
-public class CatDetailModel {
+import java.io.Serializable;
+
+public class CatDetailModel implements Serializable {
     String name;
     String price;
     String img_url;
     String type;
     String typedeatil;
     int priceint;
+    String description;
 
     public CatDetailModel() {
     }
 
-    public CatDetailModel(String name, String price, String img_url, String type, String typedeatil, int priceint) {
+    public CatDetailModel(String name, String price, String img_url, String type, String typedeatil, int priceint, String description) {
         this.name = name;
         this.price = price;
         this.img_url = img_url;
         this.type = type;
         this.typedeatil = typedeatil;
         this.priceint = priceint;
+        this.description = description;
     }
 
     public String getName() {
@@ -66,5 +70,13 @@ public class CatDetailModel {
 
     public void setTypedeatil(String typedeatil) {
         this.typedeatil = typedeatil;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

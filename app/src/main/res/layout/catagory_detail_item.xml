@@ -47,61 +47,20 @@
                 android:textColor="@color/purple_700"
                 android:textSize="25sp"
                 android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/cat_detail_des"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:text="Description"
+                android:textSize="20sp"
+                />
 
+            <ImageView
+                android:layout_width="44dp"
+                android:layout_height="35dp"
+                android:layout_gravity="end"
+                android:src="@drawable/arrow" />
 
-                <ImageView
-                    android:id="@+id/cat_detail_removeitem"
-                    android:layout_width="45dp"
-                    android:layout_height="40dp"
-                    android:src="@drawable/remove_circle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginLeft="10dp"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
-
-                <TextView
-                    android:id="@+id/cat_deatail_quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="7dp"
-                    android:text="0"
-                    android:textSize="30sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/relativeLayout"
-                    app:layout_constraintEnd_toStartOf="@+id/details_additem"
-                    app:layout_constraintStart_toEndOf="@+id/details_removeitem"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
-
-                <ImageView
-                    android:id="@+id/cat_detail_additem"
-                    android:layout_width="45dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="7dp"
-                    android:src="@drawable/add_circle"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/deatails_quantity"
-                    app:layout_constraintTop_toTopOf="@+id/relativeLayout" />
-
-            </LinearLayout>
-
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/cat_detail_add_to_cart"
-                android:layout_width="120dp"
-                android:layout_height="45dp"
-                android:text="Add to Cart"
-                android:textColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/relativeLayout"
-                android:background="@drawable/btn_bg_detailed"
-                android:textStyle="bold"
-                android:layout_marginRight="10dp"
-                android:layout_gravity="end"/>
 
         </LinearLayout>
 

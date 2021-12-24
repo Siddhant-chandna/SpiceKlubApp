@@ -10,12 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopOnDoor">
         <activity android:name=".activities.OrderPlacedActivity"></activity>
-        <activity android:name=".activities.CatagoryDetailActivity" />
-        <activity android:name=".activities.DetailActivity" />
+        <activity android:name=".activities.CatagoryDetailActivity"
+           android:parentActivityName=".MainActivity" />
+        <activity android:name=".activities.DetailActivity"
+            android:parentActivityName=".activities.ViewAllActivity"/>
         <activity
             android:name=".activities.ViewAllActivity"
             android:label="@string/title_activity_view_all"
-            android:theme="@style/Theme.ShopOnDoor.NoActionBar" />
+            android:theme="@style/Theme.ShopOnDoor.NoActionBar"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".activities.LogInActivity" />
         <activity android:name=".activities.WelcomeActivity">
             <intent-filter>

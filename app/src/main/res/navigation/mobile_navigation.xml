@@ -22,11 +22,7 @@
         android:name="com.example.shopondoor.ui.catagory.CatagoryFragment"
         android:label="@string/catagory"
         tools:layout="@layout/fragment_catagory" />
-    <fragment
-        android:id="@+id/nav_logout"
-        android:name="com.example.shopondoor.ui.LogOutFragment"
-        android:label="@string/logout"
-        tools:layout="@layout/fragment_log_out" />
+
     <fragment
         android:id="@+id/nav_newProducts"
         android:name="com.example.shopondoor.NewProductsFragment"

@@ -1,5 +1,6 @@
 package com.example.shopondoor.adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -37,7 +38,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         Glide.with(context).load(catagoryModellist.get(position).getImg_url()).into(holder.imageView);
         holder.name.setText(catagoryModellist.get(position).getName());
         holder.description.setText(catagoryModellist.get(position).getDescription());

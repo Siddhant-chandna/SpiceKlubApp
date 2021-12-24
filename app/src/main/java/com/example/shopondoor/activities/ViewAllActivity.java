@@ -43,6 +43,7 @@ public class ViewAllActivity extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         progressBar=findViewById(R.id.progressbar);
         progressBar.setVisibility(View.VISIBLE);

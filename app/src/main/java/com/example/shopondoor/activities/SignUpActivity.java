@@ -20,9 +20,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.auth.User;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -60,7 +65,6 @@ public class SignUpActivity extends AppCompatActivity {
 
                 createUser();
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
             }
 
         });
@@ -92,9 +96,11 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
                                 UserModel userModel=new UserModel(userName,userEmail,userPassword);
-                                String id=task.getResult().getUser().getUid();
+                                String id=auth.getCurrentUser().getUid();
+                                Toast.makeText(SignUpActivity.this, "Uid"+id, Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 database.getReference().child("Users").child(id).setValue(userModel);
+                                startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
 
                                 Toast.makeText(SignUpActivity.this,"Sign Up Successful",Toast.LENGTH_SHORT).show();
                             }

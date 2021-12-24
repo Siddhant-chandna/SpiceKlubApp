@@ -15,6 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.shopondoor.R;
+import com.example.shopondoor.models.CatDetailModel;
+import com.example.shopondoor.models.RecomendedModel;
 import com.example.shopondoor.models.ViewAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +41,8 @@ public class DetailActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     ViewAllModel viewAllModel = null;
+    CatDetailModel catDetailModel=null;
+    RecomendedModel recomendedModel=null;
 
     FirebaseFirestore firestore;
     FirebaseAuth auth;
@@ -56,13 +60,22 @@ public class DetailActivity extends AppCompatActivity {
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         firestore=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
 
-        final Object object=getIntent().getSerializableExtra("detail");
-        if(object instanceof ViewAllModel){
-            viewAllModel=(ViewAllModel) object;
+        final Object object1=getIntent().getSerializableExtra("detail");
+        final Object object2=getIntent().getSerializableExtra("det");
+        final Object object3=getIntent().getSerializableExtra("d");
+        if(object1 instanceof ViewAllModel){
+            viewAllModel=(ViewAllModel) object1;
+        }
+        if(object2 instanceof CatDetailModel){
+            catDetailModel=(CatDetailModel) object2;
+        }
+        if(object3 instanceof RecomendedModel){
+            recomendedModel=(RecomendedModel) object3;
         }
 
         quantity=findViewById(R.id.deatails_quantity);
@@ -80,6 +93,22 @@ public class DetailActivity extends AppCompatActivity {
             description.setText(viewAllModel.getDescription());
             price.setText(viewAllModel.getPrice());
             priceint=viewAllModel.getPriceint();
+
+        }
+        else if(catDetailModel!=null){
+            Glide.with(getApplicationContext()).load(catDetailModel.getImg_url()).into(detailedImg);
+            name.setText(catDetailModel.getName());
+            description.setText(catDetailModel.getDescription());
+            price.setText(catDetailModel.getPrice());
+            priceint=catDetailModel.getPriceint();
+
+        }
+        else if(recomendedModel!=null){
+            Glide.with(getApplicationContext()).load(recomendedModel.getImg_url()).into(detailedImg);
+            name.setText(recomendedModel.getName());
+            description.setText(recomendedModel.getDescription());
+            price.setText(recomendedModel.getPrice());
+            priceint=recomendedModel.getPriceint();
 
         }
 
@@ -103,7 +132,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(totalQuantity<10){
                     totalQuantity++;
                     quantity.setText(String.valueOf(totalQuantity));
-                    totalPrice=viewAllModel.getPriceint()*totalQuantity;
+                    totalPrice=priceint*totalQuantity;
                 }
             }
         });
@@ -115,7 +144,7 @@ public class DetailActivity extends AppCompatActivity {
                 if(totalQuantity>0){
                     totalQuantity--;
                     quantity.setText(String.valueOf(totalQuantity));
-                    totalPrice=viewAllModel.getPriceint()*totalQuantity;
+                    totalPrice=priceint*totalQuantity;
                 }
             }
         });
@@ -133,14 +162,36 @@ public class DetailActivity extends AppCompatActivity {
 
         final HashMap<String,Object> cartMap=new HashMap<>();
 
-        cartMap.put("productName",viewAllModel.getName());
-        cartMap.put("productImage",viewAllModel.getImg_url());
-        cartMap.put("productPriceint",priceint);
-        cartMap.put("productPrice",viewAllModel.getPrice());
-        cartMap.put("currentDate",saveCureentDate);
-        cartMap.put("currentTime",saveCurrentTime);
-        cartMap.put("totalQuantity",quantity.getText().toString());
-        cartMap.put("totalPrice",totalPrice);
+        if(viewAllModel!=null) {
+            cartMap.put("productName", viewAllModel.getName());
+            cartMap.put("productImage", viewAllModel.getImg_url());
+            cartMap.put("productPriceint", priceint);
+            cartMap.put("productPrice", viewAllModel.getPrice());
+            cartMap.put("currentDate", saveCureentDate);
+            cartMap.put("currentTime", saveCurrentTime);
+            cartMap.put("totalQuantity", quantity.getText().toString());
+            cartMap.put("totalPrice", totalPrice);
+        }
+        else if(catDetailModel!=null){
+            cartMap.put("productName", catDetailModel.getName());
+            cartMap.put("productImage", catDetailModel.getImg_url());
+            cartMap.put("productPriceint", priceint);
+            cartMap.put("productPrice", catDetailModel.getPrice());
+            cartMap.put("currentDate", saveCureentDate);
+            cartMap.put("currentTime", saveCurrentTime);
+            cartMap.put("totalQuantity", quantity.getText().toString());
+            cartMap.put("totalPrice", totalPrice);
+        }
+        else if(recomendedModel!=null){
+            cartMap.put("productName", recomendedModel.getName());
+            cartMap.put("productImage", recomendedModel.getImg_url());
+            cartMap.put("productPriceint", priceint);
+            cartMap.put("productPrice", recomendedModel.getPrice());
+            cartMap.put("currentDate", saveCureentDate);
+            cartMap.put("currentTime", saveCurrentTime);
+            cartMap.put("totalQuantity", quantity.getText().toString());
+            cartMap.put("totalPrice", totalPrice);
+        }
 
         firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid())
                 .collection("AddToCart").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

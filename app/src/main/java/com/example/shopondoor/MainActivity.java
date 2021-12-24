@@ -1,12 +1,16 @@
 package com.example.shopondoor;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.shopondoor.activities.LogInActivity;
 import com.example.shopondoor.models.UserModel;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -49,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_catagory, R.id.nav_profile,R.id.nav_myCart,R.id.nav_logout,R.id.nav_newProducts,R.id.nav_myOrders)
+                R.id.nav_home, R.id.nav_catagory, R.id.nav_profile,R.id.nav_myCart,R.id.nav_newProducts,R.id.nav_myOrders)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
@@ -83,9 +87,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+        MenuInflater menuInflater=getMenuInflater();
+        menuInflater.inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_logout: FirebaseAuth.getInstance().signOut();
+                                     startActivity(new Intent(MainActivity.this, LogInActivity.class));
+                                     finish();
+                                     break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

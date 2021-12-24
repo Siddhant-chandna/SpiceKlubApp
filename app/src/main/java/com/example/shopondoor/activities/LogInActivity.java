@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shopondoor.MainActivity;
 import com.example.shopondoor.R;
 import com.example.shopondoor.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -54,7 +55,6 @@ public class LogInActivity extends AppCompatActivity {
             public void onClick(View v) {
                 loginUser();
                 progressBar.setVisibility(View.VISIBLE);
-                startActivity(new Intent(LogInActivity.this, HomeFragment.class));
             }
         });
     }
@@ -64,12 +64,12 @@ public class LogInActivity extends AppCompatActivity {
         String userPassword=password.getText().toString();
 
         if(TextUtils.isEmpty(userEmail)){
-            Toast.makeText(this,"Name is Empty!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Email is Empty!",Toast.LENGTH_SHORT).show();
         }
-        if(TextUtils.isEmpty(userPassword)){
+        else if(TextUtils.isEmpty(userPassword)){
             Toast.makeText(this,"Password is Empty!",Toast.LENGTH_SHORT).show();
         }
-        if(userPassword.length()<6) {
+        else if(userPassword.length()<6) {
             Toast.makeText(this, "Password is too Short,It must be greater than 6 Characters!", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -81,7 +81,10 @@ public class LogInActivity extends AppCompatActivity {
                     public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(LogInActivity.this,"LogIn Successful",Toast.LENGTH_SHORT).show();
+                            Intent intent=new Intent(LogInActivity.this,MainActivity.class);
+                            startActivity(intent);
                             progressBar.setVisibility(View.GONE);
+                            finish();
                         }
                         else{
                             progressBar.setVisibility(View.GONE);

@@ -28,10 +28,6 @@
             android:id="@+id/nav_myOrders"
             android:icon="@drawable/mycart"
             android:title="@string/myOrders" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_baseline_local_offer_24"
-            android:title="@string/logout" />
 
 
     </group>

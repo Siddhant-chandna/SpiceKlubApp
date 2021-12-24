@@ -1,6 +1,8 @@
 package com.example.shopondoor.models;
 
-public class RecomendedModel {
+import java.io.Serializable;
+
+public class RecomendedModel implements Serializable {
     String name;
     String img_url;
     String rating;
