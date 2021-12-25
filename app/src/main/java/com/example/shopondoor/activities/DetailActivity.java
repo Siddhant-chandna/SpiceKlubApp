@@ -16,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.shopondoor.R;
 import com.example.shopondoor.models.CatDetailModel;
+import com.example.shopondoor.models.NewProductModel;
 import com.example.shopondoor.models.RecomendedModel;
 import com.example.shopondoor.models.ViewAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -45,6 +46,7 @@ public class DetailActivity extends AppCompatActivity {
     ViewAllModel viewAllModel = null;
     CatDetailModel catDetailModel=null;
     RecomendedModel recomendedModel=null;
+    NewProductModel newProductModel=null;
 
     FirebaseFirestore firestore;
     FirebaseAuth auth;
@@ -70,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
         final Object object1=getIntent().getSerializableExtra("detail");
         final Object object2=getIntent().getSerializableExtra("det");
         final Object object3=getIntent().getSerializableExtra("d");
+        final Object object4=getIntent().getSerializableExtra("newProductdetail");
         if(object1 instanceof ViewAllModel){
             viewAllModel=(ViewAllModel) object1;
         }
@@ -78,6 +81,9 @@ public class DetailActivity extends AppCompatActivity {
         }
         if(object3 instanceof RecomendedModel){
             recomendedModel=(RecomendedModel) object3;
+        }
+        if(object4 instanceof NewProductModel){
+            newProductModel=(NewProductModel) object4;
         }
 
         quantity=findViewById(R.id.deatails_quantity);
@@ -97,8 +103,6 @@ public class DetailActivity extends AppCompatActivity {
             price.setText(viewAllModel.getPrice());
             priceint=viewAllModel.getPriceint();
 
-
-
         }
         else if(catDetailModel!=null){
             Glide.with(getApplicationContext()).load(catDetailModel.getImg_url()).into(detailedImg);
@@ -114,6 +118,14 @@ public class DetailActivity extends AppCompatActivity {
             description.setText(recomendedModel.getDescription());
             price.setText(recomendedModel.getPrice());
             priceint=recomendedModel.getPriceint();
+
+        }
+        else if(newProductModel!=null){
+            Glide.with(getApplicationContext()).load(newProductModel.getImage_url()).into(detailedImg);
+            name.setText(newProductModel.getName());
+            description.setText(newProductModel.getDescription());
+            price.setText(newProductModel.getPrice());
+            priceint=newProductModel.getPriceint();
 
         }
 
@@ -202,6 +214,16 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("productImage", recomendedModel.getImg_url());
             cartMap.put("productPriceint", priceint);
             cartMap.put("productPrice", recomendedModel.getPrice());
+            cartMap.put("currentDate", saveCureentDate);
+            cartMap.put("currentTime", saveCurrentTime);
+            cartMap.put("totalQuantity", quantity.getText().toString());
+            cartMap.put("totalPrice", totalPrice);
+        }
+        else if(newProductModel!=null){
+            cartMap.put("productName", newProductModel.getName());
+            cartMap.put("productImage", newProductModel.getImage_url());
+            cartMap.put("productPriceint", priceint);
+            cartMap.put("productPrice", newProductModel.getPrice());
             cartMap.put("currentDate", saveCureentDate);
             cartMap.put("currentTime", saveCurrentTime);
             cartMap.put("totalQuantity", quantity.getText().toString());

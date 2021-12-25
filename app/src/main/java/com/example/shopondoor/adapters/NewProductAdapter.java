@@ -1,6 +1,5 @@
 package com.example.shopondoor.adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -15,39 +14,42 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.shopondoor.R;
 import com.example.shopondoor.activities.CatagoryDetailActivity;
+import com.example.shopondoor.activities.DetailActivity;
 import com.example.shopondoor.models.CatagoryModel;
+import com.example.shopondoor.models.NewProductModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
-public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHolder> {
+public class NewProductAdapter extends RecyclerView.Adapter<NewProductAdapter.ViewHolder> {
 
     Context context;
-    List<CatagoryModel> catagoryModellist;
+    List<NewProductModel> newProductModellist;
     FirebaseFirestore db;
 
-    public CatagoryAdapter(Context context, List<CatagoryModel> catagoryModellist) {
+    public NewProductAdapter(Context context, List<NewProductModel> newProductModellist) {
         this.context = context;
-        this.catagoryModellist = catagoryModellist;
+        this.newProductModellist = newProductModellist;
     }
 
-    @NotNull
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull @NotNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_cat_item,parent,false));
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new NewProductAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.new_roduct_item,parent,false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         db=FirebaseFirestore.getInstance();
 
-        Glide.with(context).load(catagoryModellist.get(position).getImg_url()).into(holder.imageView);
-        holder.name.setText(catagoryModellist.get(position).getName());
-        holder.description.setText(catagoryModellist.get(position).getDescription());
+        Glide.with(context).load(newProductModellist.get(position).getImage_url()).into(holder.imageView);
+        holder.name.setText(newProductModellist.get(position).getName());
+        holder.description.setText(newProductModellist.get(position).getDescription());
+        holder.price.setText(newProductModellist.get(position).getPrice());
 
         db.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
@@ -62,8 +64,8 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(context, CatagoryDetailActivity.class);
-                intent.putExtra("type",catagoryModellist.get(position).getType());
+                Intent intent=new Intent(context, DetailActivity.class);
+                intent.putExtra("newProductdetail",newProductModellist.get(position));
                 context.startActivity(intent);
             }
         });
@@ -71,21 +73,19 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return catagoryModellist.size();
+        return newProductModellist.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
-        TextView name,description,discount;
-        public ViewHolder(@NonNull @NotNull View itemView) {
+        TextView name,description,discount,price;
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            imageView=itemView.findViewById(R.id.cat_nav_img);
-            name=itemView.findViewById(R.id.cat_nav_name);
-            description=itemView.findViewById(R.id.cat_nav_des);
-            discount=itemView.findViewById(R.id.cat_nav_discount);
+            imageView=itemView.findViewById(R.id.new_prod_img);
+            name=itemView.findViewById(R.id.new_prod_name);
+            description=itemView.findViewById(R.id.new_prod_des);
+            discount=itemView.findViewById(R.id.new_prod_discount);
+            price=itemView.findViewById(R.id.new_prod_price);
         }
-    }
-
-    public static class MyCartAdapter {
     }
 }
