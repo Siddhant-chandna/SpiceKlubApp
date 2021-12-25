@@ -64,7 +64,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="3dp"
                 android:gravity="end"
-                android:text="Discount: 20% Off!"
+                android:text="Discount"
                 android:textColor="@color/purple_500"
                 android:textStyle="bold" />
 

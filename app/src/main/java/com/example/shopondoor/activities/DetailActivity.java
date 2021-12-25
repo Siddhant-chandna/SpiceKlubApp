@@ -19,9 +19,11 @@ import com.example.shopondoor.models.CatDetailModel;
 import com.example.shopondoor.models.RecomendedModel;
 import com.example.shopondoor.models.ViewAllModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +37,7 @@ import static java.lang.Integer.parseInt;
 public class DetailActivity extends AppCompatActivity {
 
     ImageView detailedImg;
-    TextView price,name,description;
+    TextView price,name,description,discount;
     Button addtoCart;
     ImageView addItem,removerItem;
     Toolbar toolbar;
@@ -86,6 +88,7 @@ public class DetailActivity extends AppCompatActivity {
         price=findViewById(R.id.details_price);
         name=findViewById(R.id.details_name);
         description=findViewById(R.id.details_des);
+        discount=findViewById(R.id.details_discount);
 
         if(viewAllModel!=null){
             Glide.with(getApplicationContext()).load(viewAllModel.getImg_url()).into(detailedImg);
@@ -93,6 +96,8 @@ public class DetailActivity extends AppCompatActivity {
             description.setText(viewAllModel.getDescription());
             price.setText(viewAllModel.getPrice());
             priceint=viewAllModel.getPriceint();
+
+
 
         }
         else if(catDetailModel!=null){
@@ -111,6 +116,16 @@ public class DetailActivity extends AppCompatActivity {
             priceint=recomendedModel.getPriceint();
 
         }
+
+        firestore.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    discount.setText(documentSnapshot.getString("discount"));
+                }
+            }
+        });
 
 
         addtoCart=findViewById(R.id.add_to_cart);

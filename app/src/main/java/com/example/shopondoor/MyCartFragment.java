@@ -1,6 +1,7 @@
 package com.example.shopondoor;
 
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -140,6 +141,7 @@ public class MyCartFragment extends Fragment {
             totalAmountCart += myCartModel.getTotalPrice();
         }
         totalAmount.setText(""+totalAmountCart);
+        totalAmount.setPaintFlags(totalAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         totaldiscountAmount=totalAmountCart-(totalAmountCart*discount);
         totalDisAmount.setText(" "+ totaldiscountAmount);
     }

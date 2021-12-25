@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 import com.example.shopondoor.R;
 import com.example.shopondoor.activities.DetailActivity;
 import com.example.shopondoor.models.ViewAllModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +28,7 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
 
     Context context;
     List<ViewAllModel> viewAllModelList;
+    FirebaseFirestore db;
 
     public ViewAllAdapter(Context context, List<ViewAllModel> viewAllModelList) {
         this.context = context;
@@ -39,12 +43,21 @@ public class ViewAllAdapter extends RecyclerView.Adapter<ViewAllAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder,int position) {
+        db=FirebaseFirestore.getInstance();
 
         Glide.with(context).load(viewAllModelList.get(position).getImg_url()).into(holder.imageView);
         holder.name.setText(viewAllModelList.get(position).getName());
         holder.description.setText(viewAllModelList.get(position).getDescription());
-        holder.discount.setText(viewAllModelList.get(position).getDiscount());
         holder.price.setText(viewAllModelList.get(position).getPrice());
+        db.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    holder.discount.setText(documentSnapshot.getString("discount"));
+                }
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

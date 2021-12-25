@@ -16,6 +16,9 @@ import com.bumptech.glide.Glide;
 import com.example.shopondoor.R;
 import com.example.shopondoor.activities.CatagoryDetailActivity;
 import com.example.shopondoor.models.CatagoryModel;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +28,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
 
     Context context;
     List<CatagoryModel> catagoryModellist;
+    FirebaseFirestore db;
 
     public CatagoryAdapter(Context context, List<CatagoryModel> catagoryModellist) {
         this.context = context;
@@ -39,10 +43,21 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
+        db=FirebaseFirestore.getInstance();
+
         Glide.with(context).load(catagoryModellist.get(position).getImg_url()).into(holder.imageView);
         holder.name.setText(catagoryModellist.get(position).getName());
         holder.description.setText(catagoryModellist.get(position).getDescription());
-        holder.discount.setText(catagoryModellist.get(position).getDiscount());
+
+        db.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    holder.discount.setText(documentSnapshot.getString("discount"));
+                }
+            }
+        });
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
