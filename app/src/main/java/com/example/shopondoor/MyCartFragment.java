@@ -1,15 +1,11 @@
 package com.example.shopondoor;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,6 +20,7 @@ import com.example.shopondoor.activities.OrderPlacedActivity;
 import com.example.shopondoor.adapters.MyCartAdapter;
 import com.example.shopondoor.models.MyCartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -44,9 +41,11 @@ public class MyCartFragment extends Fragment {
     MyCartAdapter myCartAdapter;
     List<MyCartModel> myCartModelList;
     TextView totalAmount;
+    TextView totalDisAmount;
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
     Button buyNow;
+    Double discount = 0.0;
 
 
     public MyCartFragment() {
@@ -76,10 +75,21 @@ public class MyCartFragment extends Fragment {
 
         //Total Amount
         totalAmount=root.findViewById(R.id.product_total_price_fragment);
+        totalDisAmount=root.findViewById(R.id.product_total_dis_price_fragment);
 
         myCartModelList=new ArrayList<>();
         myCartAdapter=new MyCartAdapter(getActivity(),myCartModelList);
         recyclerView.setAdapter(myCartAdapter);
+
+        db.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    discount=documentSnapshot.getDouble("discountInt");
+                }
+            }
+        });
 
         db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
                 .collection("AddToCart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -107,6 +117,8 @@ public class MyCartFragment extends Fragment {
             }
         });
 
+
+
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,11 +133,15 @@ public class MyCartFragment extends Fragment {
 
     private void calculateTotalAmount(List<MyCartModel> myCartModelList) {
 
-        double totalAmountCart=0.0;
+
+
+        double totalAmountCart=0.0,totaldiscountAmount=0.0;
         for(MyCartModel myCartModel : myCartModelList){
             totalAmountCart += myCartModel.getTotalPrice();
         }
         totalAmount.setText(""+totalAmountCart);
+        totaldiscountAmount=totalAmountCart-(totalAmountCart*discount);
+        totalDisAmount.setText(" "+ totaldiscountAmount);
     }
 
 }
