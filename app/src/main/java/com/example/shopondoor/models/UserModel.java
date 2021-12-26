@@ -11,6 +11,13 @@ public class UserModel {
     public UserModel() {
     }
 
+    public UserModel(String userName, String userEmail, String userPassword) {
+
+        this.name=userName;
+        this.email=userEmail;
+        this.password=userPassword;
+    }
+
     public UserModel(String name, String email, String password, String profileImg, int phone, String address) {
         this.name = name;
         this.email = email;
@@ -20,8 +27,8 @@ public class UserModel {
         this.address = address;
     }
 
-    public UserModel(String userName, String userEmail, String userPassword) {
-    }
+
+
 
     public String getName() {
         return name;

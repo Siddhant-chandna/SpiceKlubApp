@@ -97,7 +97,6 @@ public class SignUpActivity extends AppCompatActivity {
                             if(task.isSuccessful()){
                                 UserModel userModel=new UserModel(userName,userEmail,userPassword);
                                 String id=auth.getCurrentUser().getUid();
-                                Toast.makeText(SignUpActivity.this, "Uid"+id, Toast.LENGTH_SHORT).show();
                                 progressBar.setVisibility(View.GONE);
                                 database.getReference().child("Users").child(id).setValue(userModel);
                                 startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
