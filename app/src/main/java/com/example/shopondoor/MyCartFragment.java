@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shopondoor.activities.OrderPlacedActivity;
 import com.example.shopondoor.adapters.MyCartAdapter;
@@ -26,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.jetbrains.annotations.NotNull;
@@ -46,8 +48,8 @@ public class MyCartFragment extends Fragment {
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
     Button buyNow;
+    String flag;
     Double discount = 0.0;
-
 
     public MyCartFragment() {
         // Required empty public constructor
@@ -61,6 +63,7 @@ public class MyCartFragment extends Fragment {
 
         db=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
+
 
         progressBar= root.findViewById(R.id.progressbar_cart);
         progressBar.setVisibility(View.GONE);
@@ -123,27 +126,42 @@ public class MyCartFragment extends Fragment {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(myCartModelList.size()>0){
                 Intent intent=new Intent(getContext(), OrderPlacedActivity.class);
                 intent.putExtra("itemList",(Serializable) myCartModelList);
-                startActivity(intent );
+                startActivity(intent);
+                }
+                db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
+                        .collection("AddToCart").get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                   for(QueryDocumentSnapshot snapshot:task.getResult()){
+                                       db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
+                                               .collection("AddToCart").document(snapshot.getId()).delete();
+                                   }
+                            }
+                        });
             }
         });
+
+
 
         return root;
     }
 
+
     private void calculateTotalAmount(List<MyCartModel> myCartModelList) {
-
-
 
         double totalAmountCart=0.0,totaldiscountAmount=0.0;
         for(MyCartModel myCartModel : myCartModelList){
             totalAmountCart += myCartModel.getTotalPrice();
+            totaldiscountAmount=(totalAmountCart-(totalAmountCart*discount));
         }
         totalAmount.setText(""+totalAmountCart);
         totalAmount.setPaintFlags(totalAmount.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-        totaldiscountAmount=totalAmountCart-(totalAmountCart*discount);
         totalDisAmount.setText(" "+ totaldiscountAmount);
     }
+
 
 }

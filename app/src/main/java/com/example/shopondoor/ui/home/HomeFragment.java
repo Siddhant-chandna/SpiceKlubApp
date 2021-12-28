@@ -190,6 +190,8 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+
+
     private void searchProduct(String typedetail) {
         if(!typedetail.isEmpty() && typedetail.equalsIgnoreCase(typedetail)){
             db.collection("CatagoryDeatils").whereEqualTo("typedetail",typedetail).get()

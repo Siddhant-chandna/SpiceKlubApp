@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ShopOnDoor">
-        <activity android:name=".activities.OrderPlacedActivity"></activity>
+        <activity android:name=".activities.OrderPlacedActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity android:name=".activities.CatagoryDetailActivity"
            android:parentActivityName=".MainActivity" />
         <activity android:name=".activities.DetailActivity"
