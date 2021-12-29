@@ -41,6 +41,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
@@ -126,6 +128,12 @@ public class HomeFragment extends Fragment {
                                 exploreModelList.add(exploreModel);
                                 exploreAdapter.notifyDataSetChanged();
                             }
+                            Collections.sort(exploreModelList, new Comparator<ExploreModel>() {
+                                @Override
+                                public int compare(ExploreModel o1, ExploreModel o2) {
+                                    return o1.getName().compareTo(o2.getName());
+                                }
+                            });
                         } else {
                             Toast.makeText(getActivity(), "Error:"+task.getException(), Toast.LENGTH_SHORT).show();
                         }
@@ -149,6 +157,12 @@ public class HomeFragment extends Fragment {
                                 recomendedModelList.add(recomendedModel);
                                 recomendedAdapter.notifyDataSetChanged();
                             }
+                            Collections.sort(recomendedModelList, new Comparator<RecomendedModel>() {
+                                @Override
+                                public int compare(RecomendedModel o1, RecomendedModel o2) {
+                                    return o1.getName().compareTo(o2.getName());
+                                }
+                            });
                         } else {
                             Toast.makeText(getActivity(), "Error:"+task.getException(), Toast.LENGTH_SHORT).show();
                         }

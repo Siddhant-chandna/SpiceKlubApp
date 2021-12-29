@@ -3,18 +3,25 @@ package com.example.shopondoor.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.Constraints;
 
 import com.bumptech.glide.Glide;
+import com.example.shopondoor.MyCartFragment;
 import com.example.shopondoor.R;
+import com.example.shopondoor.adapters.MyCartAdapter;
 import com.example.shopondoor.models.CatDetailModel;
 import com.example.shopondoor.models.NewProductModel;
 import com.example.shopondoor.models.RecomendedModel;
@@ -41,7 +48,13 @@ public class DetailActivity extends AppCompatActivity {
     TextView price,name,description,discount;
     Button addtoCart;
     ImageView addItem,removerItem;
+    ImageView cart_icon;
     Toolbar toolbar;
+    ConstraintLayout detailConstraint;
+    LinearLayout linearLayout;
+    LinearLayout linearLayout4;
+    RelativeLayout relativeLayout;
+    TextView details_quantity;
 
     ViewAllModel viewAllModel = null;
     CatDetailModel catDetailModel=null;
@@ -55,6 +68,8 @@ public class DetailActivity extends AppCompatActivity {
     int priceint;
     int totalQuantity=0;
     int totalPrice=0;
+    double totaldiscountprice=0.0;
+   double discountPrice=0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +101,9 @@ public class DetailActivity extends AppCompatActivity {
             newProductModel=(NewProductModel) object4;
         }
 
+        detailConstraint=findViewById(R.id.detail_container);
+        detailConstraint.setVisibility(View.VISIBLE);
+
         quantity=findViewById(R.id.deatails_quantity);
 
         detailedImg=findViewById(R.id.details_img);
@@ -95,6 +113,10 @@ public class DetailActivity extends AppCompatActivity {
         name=findViewById(R.id.details_name);
         description=findViewById(R.id.details_des);
         discount=findViewById(R.id.details_discount);
+        linearLayout=findViewById(R.id.linearLayout2);
+        linearLayout4=findViewById(R.id.linearLayout4);
+        relativeLayout=findViewById(R.id.relativeLayout);
+        details_quantity=findViewById(R.id.deatails_quantity);
 
         if(viewAllModel!=null){
             Glide.with(getApplicationContext()).load(viewAllModel.getImg_url()).into(detailedImg);
@@ -138,7 +160,32 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+        firestore.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
+                .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if(documentSnapshot.exists()){
+                    discountPrice=documentSnapshot.getDouble("discountInt");
+                }
+            }
+        });
 
+        cart_icon=findViewById(R.id.cart_icon);
+        cart_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailedImg.setVisibility(View.GONE);
+                name.setVisibility(View.GONE);
+                linearLayout.setVisibility(View.GONE);
+                linearLayout4.setVisibility(View.GONE);
+                relativeLayout.setVisibility(View.GONE);
+                addItem.setVisibility(View.GONE);
+                removerItem.setVisibility(View.GONE);
+                addtoCart.setVisibility(View.GONE);
+                details_quantity.setVisibility(View.GONE);
+                getSupportFragmentManager().beginTransaction().replace(R.id.detail_container,new MyCartFragment()).commit();
+            }
+        });
 
         addtoCart=findViewById(R.id.add_to_cart);
         addtoCart.setOnClickListener(new View.OnClickListener() {
@@ -160,6 +207,7 @@ public class DetailActivity extends AppCompatActivity {
                     totalQuantity++;
                     quantity.setText(String.valueOf(totalQuantity));
                     totalPrice=priceint*totalQuantity;
+                    totaldiscountprice=totalPrice*(1-discountPrice);
                 }
             }
         });
@@ -172,6 +220,7 @@ public class DetailActivity extends AppCompatActivity {
                     totalQuantity--;
                     quantity.setText(String.valueOf(totalQuantity));
                     totalPrice=priceint*totalQuantity;
+                    totaldiscountprice=totalPrice*(1-discountPrice);
                 }
             }
         });
@@ -181,11 +230,13 @@ public class DetailActivity extends AppCompatActivity {
         String saveCureentDate,saveCurrentTime;
         Calendar calForDate= Calendar.getInstance();
 
-        SimpleDateFormat currentDate=new SimpleDateFormat("MM dd,yyyy");
+        SimpleDateFormat currentDate=new SimpleDateFormat("yyyy,MM,dd");
         saveCureentDate=currentDate.format(calForDate.getTime());
 
         SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
         saveCurrentTime=currentTime.format(calForDate.getTime());
+
+
 
         final HashMap<String,Object> cartMap=new HashMap<>();
 
@@ -198,6 +249,7 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("currentTime", saveCurrentTime);
             cartMap.put("totalQuantity", quantity.getText().toString());
             cartMap.put("totalPrice", totalPrice);
+            cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
         else if(catDetailModel!=null){
             cartMap.put("productName", catDetailModel.getName());
@@ -208,6 +260,7 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("currentTime", saveCurrentTime);
             cartMap.put("totalQuantity", quantity.getText().toString());
             cartMap.put("totalPrice", totalPrice);
+            cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
         else if(recomendedModel!=null){
             cartMap.put("productName", recomendedModel.getName());
@@ -218,6 +271,7 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("currentTime", saveCurrentTime);
             cartMap.put("totalQuantity", quantity.getText().toString());
             cartMap.put("totalPrice", totalPrice);
+            cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
         else if(newProductModel!=null){
             cartMap.put("productName", newProductModel.getName());
@@ -228,6 +282,7 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("currentTime", saveCurrentTime);
             cartMap.put("totalQuantity", quantity.getText().toString());
             cartMap.put("totalPrice", totalPrice);
+            cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
 
         firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid())

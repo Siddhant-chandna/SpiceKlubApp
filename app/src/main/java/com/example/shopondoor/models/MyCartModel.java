@@ -12,12 +12,13 @@ public class MyCartModel implements Serializable {
     String documentId;
     String currentDate;
     String currentTime;
-    String flag;
+    String description;
+    double totaldiscountPrice;
 
     public MyCartModel() {
     }
 
-    public MyCartModel(String productName, String productImage, int productPriceint, String productPrice, String totalQuantity, int totalPrice, String documentId, String currentDate, String currentTime, String flag) {
+    public MyCartModel(String productName, String productImage, int productPriceint, String productPrice, String totalQuantity, int totalPrice, String documentId, String currentDate, String currentTime, String description, double totaldiscountPrice) {
         this.productName = productName;
         this.productImage = productImage;
         this.productPriceint = productPriceint;
@@ -27,15 +28,16 @@ public class MyCartModel implements Serializable {
         this.documentId = documentId;
         this.currentDate = currentDate;
         this.currentTime = currentTime;
-        this.flag = flag;
+        this.description = description;
+        this.totaldiscountPrice = totaldiscountPrice;
     }
 
-    public String getFlag() {
-        return flag;
+    public String getDescription() {
+        return description;
     }
 
-    public void setFlag(String flag) {
-        this.flag = flag;
+    public void setDescription(String description) {
+        this.description=description;
     }
 
     public void setProductPriceint(int productPriceint) {
@@ -112,5 +114,13 @@ public class MyCartModel implements Serializable {
 
     public void setCurrentTime(String currentTime) {
         this.currentTime = currentTime;
+    }
+
+    public double getTotaldiscountPrice() {
+        return totaldiscountPrice;
+    }
+
+    public void setTotaldiscountPrice(double totaldiscountPrice) {
+        this.totaldiscountPrice = totaldiscountPrice;
     }
 }

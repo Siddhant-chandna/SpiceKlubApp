@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.shopondoor.adapters.MyCartAdapter;
 import com.example.shopondoor.adapters.ViewOrderAdapter;
 import com.example.shopondoor.models.MyCartModel;
+import com.example.shopondoor.models.RecomendedModel;
 import com.example.shopondoor.models.ViewOrderModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +30,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MyOrdersFragment extends Fragment {
@@ -74,6 +77,18 @@ public class MyOrdersFragment extends Fragment {
                         order_recyclerView.setVisibility(View.VISIBLE);
                         constraintLayout.setVisibility(View.GONE);
                     }
+                    Collections.sort(viewOrderModelList, new Comparator<ViewOrderModel>() {
+                        @Override
+                        public int compare(ViewOrderModel o1, ViewOrderModel o2) {
+                            return o1.getCurrentDate().compareTo(o2.getCurrentDate());
+                        }
+                    });
+                    Collections.sort(viewOrderModelList, new Comparator<ViewOrderModel>() {
+                        @Override
+                        public int compare(ViewOrderModel o1, ViewOrderModel o2) {
+                            return o1.getCurrentTime().compareTo(o2.getCurrentTime());
+                        }
+                    });
                 } else {
                     Toast.makeText(getActivity(), "Error:"+task.getException(), Toast.LENGTH_SHORT).show();
                 }

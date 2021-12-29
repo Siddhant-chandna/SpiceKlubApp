@@ -24,20 +24,20 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/search_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:layout_margin="8dp"
-        android:drawableLeft="@drawable/ic_baseline_search_24"
-        android:background="@drawable/search_gb"
-        android:padding="13dp"
-        android:elevation="3dp"
-        android:hint="Search..."
-        android:drawablePadding="5dp"
-        android:focusedByDefault="false"
-        android:drawableStart="@drawable/ic_baseline_search_24" />
+        <EditText
+            android:id="@+id/search_box"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:background="@drawable/search_gb"
+            android:drawableStart="@drawable/ic_baseline_search_24"
+            android:drawableLeft="@drawable/ic_baseline_search_24"
+            android:drawablePadding="5dp"
+            android:elevation="3dp"
+            android:focusedByDefault="false"
+            android:hint="Search..."
+            android:inputType="textPersonName"
+            android:padding="13dp" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_rec"

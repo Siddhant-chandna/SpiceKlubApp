@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.shopondoor.activities.OrderPlacedActivity;
 import com.example.shopondoor.adapters.MyCartAdapter;
 import com.example.shopondoor.models.MyCartModel;
+import com.example.shopondoor.models.RecomendedModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -34,6 +35,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MyCartFragment extends Fragment {
@@ -112,6 +115,13 @@ public class MyCartFragment extends Fragment {
                             recyclerView.setVisibility(View.VISIBLE);
                             constraintLayout.setVisibility(View.GONE);
                     }
+
+                    Collections.sort(myCartModelList, new Comparator<MyCartModel>() {
+                                @Override
+                                public int compare(MyCartModel o1, MyCartModel o2) {
+                                    return o1.getProductName().compareTo(o2.getProductName());
+                                }
+                            });
 
                     calculateTotalAmount(myCartModelList);
                 }

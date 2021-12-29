@@ -48,7 +48,7 @@ public class OrderPlacedActivity extends AppCompatActivity {
                 String saveCureentDate,saveCurrentTime;
                 Calendar calForDate= Calendar.getInstance();
 
-                SimpleDateFormat currentDate=new SimpleDateFormat("MM dd,yyyy");
+                SimpleDateFormat currentDate=new SimpleDateFormat("yyyy,MM,dd");
                 saveCureentDate=currentDate.format(calForDate.getTime());
 
                 SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");

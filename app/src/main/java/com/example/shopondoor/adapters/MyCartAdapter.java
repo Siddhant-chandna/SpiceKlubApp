@@ -2,6 +2,7 @@ package com.example.shopondoor.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.shopondoor.R;
+import com.example.shopondoor.activities.DetailActivity;
 import com.example.shopondoor.models.MyCartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -55,6 +57,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
         holder.price.setText(myCartModelList.get(position).getProductPrice());
         holder.quantity.setText(myCartModelList.get(position).getTotalQuantity());
         holder.totalPrice.setText(String.valueOf(myCartModelList.get(position).getTotalPrice()));
+        holder.discountTotalPrice.setText(String.valueOf(myCartModelList.get(position).getTotaldiscountPrice()));
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,7 +93,7 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView,delete;
-        TextView name,price,quantity,totalPrice;
+        TextView name,price,quantity,totalPrice,discountTotalPrice;
 
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
@@ -101,6 +104,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
             price=itemView.findViewById(R.id.product_price);
             quantity=itemView.findViewById(R.id.product_quantity);
             totalPrice=itemView.findViewById(R.id.product_total_price);
+            totalPrice.setPaintFlags(totalPrice.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+            discountTotalPrice=itemView.findViewById(R.id.product_discount_price);
         }
     }
 }
