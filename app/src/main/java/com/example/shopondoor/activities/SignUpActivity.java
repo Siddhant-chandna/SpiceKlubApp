@@ -22,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,6 +38,7 @@ public class SignUpActivity extends AppCompatActivity {
     TextView signIn;
     FirebaseAuth auth;
     FirebaseDatabase database;
+    FirebaseFirestore db;
     ProgressBar  progressBar;
 
     @Override
@@ -49,6 +52,7 @@ public class SignUpActivity extends AppCompatActivity {
         password = findViewById(R.id.password_reg);
         signIn = findViewById(R.id.sign_in);
         auth=FirebaseAuth.getInstance();
+        db=FirebaseFirestore.getInstance();
         database=FirebaseDatabase.getInstance();
         progressBar=findViewById(R.id.regProgress);
         progressBar.setVisibility(View.GONE);
@@ -100,6 +104,18 @@ public class SignUpActivity extends AppCompatActivity {
                                 progressBar.setVisibility(View.GONE);
                                 database.getReference().child("Users").child(id).setValue(userModel);
                                 startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+
+                                final HashMap<String, Object> cartMap = new HashMap<>();
+
+                                cartMap.put("Uid",auth.getCurrentUser().getUid());
+
+                                db.collection("UserId").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                    @Override
+                                    public void onComplete(@NonNull @NotNull Task<DocumentReference> task) {
+                                        Toast.makeText(SignUpActivity.this, "Added", Toast.LENGTH_SHORT).show();
+                                    }
+
+                                });
 
                                 Toast.makeText(SignUpActivity.this,"Sign Up Successful",Toast.LENGTH_SHORT).show();
                             }

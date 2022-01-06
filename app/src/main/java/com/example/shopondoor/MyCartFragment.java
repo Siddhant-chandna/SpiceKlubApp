@@ -26,6 +26,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -43,15 +47,16 @@ public class MyCartFragment extends Fragment {
 
     FirebaseFirestore db;
     FirebaseAuth auth;
+    FirebaseDatabase database;
     RecyclerView recyclerView;
     MyCartAdapter myCartAdapter;
     List<MyCartModel> myCartModelList;
-    TextView totalAmount;
+    TextView totalAmount,storeClosed;
     TextView totalDisAmount;
     ProgressBar progressBar;
     ConstraintLayout constraintLayout;
     Button buyNow;
-    String flag;
+    String openStatus;
     Double discount = 0.0;
 
     public MyCartFragment() {
@@ -66,6 +71,30 @@ public class MyCartFragment extends Fragment {
 
         db=FirebaseFirestore.getInstance();
         auth=FirebaseAuth.getInstance();
+        database=FirebaseDatabase.getInstance();
+        storeClosed=root.findViewById(R.id.storeClosed);
+
+        database.getReference().child("Admin").child("AiS7EsAzP2dgMUp8yjtNowBr6yn1")
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        openStatus=snapshot.child("openStatus").getValue().toString();
+                        if(openStatus.equals("Open")){
+                            buyNow.setVisibility(View.VISIBLE);
+                            storeClosed.setVisibility(View.GONE);
+                        }
+                        else{
+                            buyNow.setVisibility(View.GONE);
+                            storeClosed.setVisibility(View.VISIBLE);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
 
         progressBar= root.findViewById(R.id.progressbar_cart);
@@ -132,26 +161,25 @@ public class MyCartFragment extends Fragment {
         });
 
 
-
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(myCartModelList.size()>0){
-                Intent intent=new Intent(getContext(), OrderPlacedActivity.class);
-                intent.putExtra("itemList",(Serializable) myCartModelList);
-                startActivity(intent);
-                }
-                db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
-                        .collection("AddToCart").get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                   for(QueryDocumentSnapshot snapshot:task.getResult()){
-                                       db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
-                                               .collection("AddToCart").document(snapshot.getId()).delete();
-                                   }
-                            }
-                        });
+                    if(myCartModelList.size()>0){
+                        Intent intent=new Intent(getContext(), OrderPlacedActivity.class);
+                        intent.putExtra("itemList",(Serializable) myCartModelList);
+                        startActivity(intent);
+                    }
+                    db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
+                            .collection("AddToCart").get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    for(QueryDocumentSnapshot snapshot:task.getResult()){
+                                        db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
+                                                .collection("AddToCart").document(snapshot.getId()).delete();
+                                    }
+                                }
+                            });
             }
         });
 

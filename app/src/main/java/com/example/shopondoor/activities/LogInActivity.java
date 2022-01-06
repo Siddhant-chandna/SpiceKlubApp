@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.FocusFinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +21,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
+
+import java.util.HashMap;
 
 public class LogInActivity extends AppCompatActivity {
     Button signIn;
@@ -29,6 +34,7 @@ public class LogInActivity extends AppCompatActivity {
     TextView signUp;
     FirebaseAuth auth;
     ProgressBar progressBar;
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +48,7 @@ public class LogInActivity extends AppCompatActivity {
         auth=FirebaseAuth.getInstance();
         progressBar=findViewById(R.id.loginProgress);
         progressBar.setVisibility(View.GONE);
+        db= FirebaseFirestore.getInstance();
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override

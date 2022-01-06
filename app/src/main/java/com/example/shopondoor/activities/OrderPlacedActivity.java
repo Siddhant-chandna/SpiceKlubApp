@@ -29,6 +29,7 @@ public class OrderPlacedActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseFirestore firestore;
     Toolbar toolbar;
+    String orderStatus="Ordered";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +63,10 @@ public class OrderPlacedActivity extends AppCompatActivity {
                     cartMap.put("productPrice", model.getProductPrice());
                     cartMap.put("totalQuantity", model.getTotalQuantity());
                     cartMap.put("totalPrice", model.getTotalPrice());
+                    cartMap.put("totaldiscountPrice",model.getTotaldiscountPrice());
                     cartMap.put("currentDate", saveCureentDate);
                     cartMap.put("currentTime", saveCurrentTime);
+                    cartMap.put("orderStatus", orderStatus);
 
                     firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid())
                             .collection("MyOrder").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {

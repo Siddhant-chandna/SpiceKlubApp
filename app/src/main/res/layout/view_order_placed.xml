@@ -139,6 +139,15 @@
                 android:textSize="22sp" />
 
         </LinearLayout>
+        <TextView
+            android:id="@+id/orderStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OrderStatus"
+            android:textColor="@color/black"
+            android:fontFamily="@font/alice"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

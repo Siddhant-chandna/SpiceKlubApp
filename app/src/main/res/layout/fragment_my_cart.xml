@@ -107,6 +107,20 @@
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
             app:layout_constraintVertical_bias="0.466" />
 
+        <TextView
+            android:id="@+id/storeClosed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:padding="15dp"
+            android:text="Sorry the Store is Closed Right Now :("
+            android:textColor="@color/purple_200"
+            android:textSize="21sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent" />
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/buyNow"
             android:layout_width="300dp"

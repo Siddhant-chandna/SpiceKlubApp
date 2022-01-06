@@ -12,11 +12,13 @@ public class ViewOrderModel implements Serializable {
     String documentId;
     String currentDate;
     String currentTime;
+    double totaldiscountPrice;
+    String OrderStatus;
 
     public ViewOrderModel() {
     }
 
-    public ViewOrderModel(String productName, String productImage, int productPriceint, String productPrice, String totalQuantity, int totalPrice, String documentId, String currentDate, String currentTime) {
+    public ViewOrderModel(String productName, String productImage, int productPriceint, String productPrice, String totalQuantity, int totalPrice, String documentId, String currentDate, String currentTime, double totaldiscountPrice, String orderStatus) {
         this.productName = productName;
         this.productImage = productImage;
         this.productPriceint = productPriceint;
@@ -26,6 +28,8 @@ public class ViewOrderModel implements Serializable {
         this.documentId = documentId;
         this.currentDate = currentDate;
         this.currentTime = currentTime;
+        this.totaldiscountPrice = totaldiscountPrice;
+        OrderStatus = orderStatus;
     }
 
     public String getProductName() {
@@ -100,5 +104,19 @@ public class ViewOrderModel implements Serializable {
         this.currentTime = currentTime;
     }
 
+    public double getTotaldiscountPrice() {
+        return totaldiscountPrice;
+    }
 
+    public void setTotaldiscountPrice(double totaldiscountPrice) {
+        this.totaldiscountPrice = totaldiscountPrice;
+    }
+
+    public String getOrderStatus() {
+        return OrderStatus;
+    }
+
+    public void setOrderStatus(String orderStatus) {
+        OrderStatus = orderStatus;
+    }
 }
