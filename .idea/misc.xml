@@ -3,9 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.159375" />
         <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/drawable/account.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/drawable/autorenew.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/drawable/ic_menu_camera.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.159375" />
         <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/drawable/mycart.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/layout/activity_catagory_detail.xml" value="0.1453804347826087" />
         <entry key="..\:/Users/siddh/Desktop/Android Dev/ShopOnDoor/app/src/main/res/layout/activity_closed.xml" value="0.20153985507246377" />
