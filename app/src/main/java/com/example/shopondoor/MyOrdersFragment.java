@@ -77,18 +77,9 @@ public class MyOrdersFragment extends Fragment {
                         order_recyclerView.setVisibility(View.VISIBLE);
                         constraintLayout.setVisibility(View.GONE);
                     }
-                    Collections.sort(viewOrderModelList, new Comparator<ViewOrderModel>() {
-                        @Override
-                        public int compare(ViewOrderModel o1, ViewOrderModel o2) {
-                            return o1.getCurrentDate().compareTo(o2.getCurrentDate());
-                        }
-                    });
-                    Collections.sort(viewOrderModelList, new Comparator<ViewOrderModel>() {
-                        @Override
-                        public int compare(ViewOrderModel o1, ViewOrderModel o2) {
-                            return o1.getCurrentTime().compareTo(o2.getCurrentTime());
-                        }
-                    });
+
+                    Collections.sort(viewOrderModelList);
+
                 } else {
                     Toast.makeText(getActivity(), "Error:"+task.getException(), Toast.LENGTH_SHORT).show();
                 }

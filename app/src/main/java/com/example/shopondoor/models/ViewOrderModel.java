@@ -2,7 +2,7 @@ package com.example.shopondoor.models;
 
 import java.io.Serializable;
 
-public class ViewOrderModel implements Serializable {
+public class ViewOrderModel implements Comparable<ViewOrderModel>{
     String productName;
     String productImage;
     int productPriceint;
@@ -118,5 +118,14 @@ public class ViewOrderModel implements Serializable {
 
     public void setOrderStatus(String orderStatus) {
         OrderStatus = orderStatus;
+    }
+
+    public int compareTo(ViewOrderModel o) {
+        if (!this.getCurrentDate().equals(o.getCurrentDate())) {
+            int b=this.getCurrentDate().compareTo(o.getCurrentDate());
+            return b>=0 ? -1 : 1;
+        }
+        int c=this.getCurrentTime().compareTo(o.getCurrentTime());
+        return c>=0 ? -1:1;
     }
 }

@@ -96,7 +96,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/alice"
-                android:text="Total Price :  Rs."
+                android:text="Total Paid :  Rs."
                 android:textSize="20sp" />
 
 

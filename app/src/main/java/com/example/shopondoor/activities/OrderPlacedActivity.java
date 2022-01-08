@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -13,6 +14,10 @@ import com.example.shopondoor.models.MyCartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,10 +31,14 @@ import java.util.List;
 
 public class OrderPlacedActivity extends AppCompatActivity {
 
+    private static final String TAG = "Tag";
     FirebaseAuth auth;
     FirebaseFirestore firestore;
     Toolbar toolbar;
     String orderStatus="Ordered";
+    String address;
+    String locality;
+    String city;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +47,34 @@ public class OrderPlacedActivity extends AppCompatActivity {
 
             auth=FirebaseAuth.getInstance();
             firestore=FirebaseFirestore.getInstance();
+        FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        address = snapshot.child("address").getValue().toString();
+                        city = snapshot.child("city").getValue().toString();
+                        locality = snapshot.child("locality").getValue().toString();
+                        AddOrder();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
 
         toolbar=findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
+
+
+
+        }
+
+        public void AddOrder(){
             List<MyCartModel> myCartModelList=(ArrayList<MyCartModel>)getIntent().getSerializableExtra("itemList");
             if (myCartModelList != null && myCartModelList.size() > 0) {
                 String saveCureentDate,saveCurrentTime;
@@ -67,12 +98,16 @@ public class OrderPlacedActivity extends AppCompatActivity {
                     cartMap.put("currentDate", saveCureentDate);
                     cartMap.put("currentTime", saveCurrentTime);
                     cartMap.put("orderStatus", orderStatus);
+                    cartMap.put("address", address);
+                    cartMap.put("city",city);
+                    cartMap.put("locality", locality);
 
                     firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid())
                             .collection("MyOrder").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<DocumentReference> task) {
                             Toast.makeText(OrderPlacedActivity.this, "Order Placed Successfully", Toast.LENGTH_SHORT).show();
+
                         }
 
                     });

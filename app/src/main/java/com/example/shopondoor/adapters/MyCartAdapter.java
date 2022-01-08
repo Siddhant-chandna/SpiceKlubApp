@@ -23,6 +23,7 @@ import com.example.shopondoor.models.MyCartModel;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.jetbrains.annotations.NotNull;
@@ -33,7 +34,8 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
     Context context;
     List<MyCartModel> myCartModelList;
-    int totalAmount = 0;
+    double totalDiscountAmount = 0;
+    double discount=0;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
 
@@ -52,12 +54,18 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyCartAdapter.ViewHolder holder, int position) {
+        totalDiscountAmount=myCartModelList.get(position).getTotaldiscountPrice();
+        totalDiscountAmount=Math.floor(totalDiscountAmount * 100)/100;
+        discount=discount+totalDiscountAmount;
+
+        FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("discountedPrice").setValue(discount);
+
         Glide.with(context).load(myCartModelList.get(position).getProductImage()).into(holder.imageView);
         holder.name.setText(myCartModelList.get(position).getProductName());
         holder.price.setText(myCartModelList.get(position).getProductPrice());
         holder.quantity.setText(myCartModelList.get(position).getTotalQuantity());
         holder.totalPrice.setText(String.valueOf(myCartModelList.get(position).getTotalPrice()));
-        holder.discountTotalPrice.setText(String.valueOf(myCartModelList.get(position).getTotaldiscountPrice()));
+        holder.discountTotalPrice.setText(String.valueOf(totalDiscountAmount));
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
