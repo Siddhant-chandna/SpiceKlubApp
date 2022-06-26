@@ -7,17 +7,19 @@ public class NewProductModel implements Serializable {
     String description;
     String price;
     String image_url;
-    int priceint;
+    int pricehalf;
+    int pricefull;
 
     public NewProductModel() {
     }
 
-    public NewProductModel(String name, String description, String price, String image_url, int priceint) {
+    public NewProductModel(String name, String description, String price, String image_url, int pricehalf,int pricefull) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.image_url = image_url;
-        this.priceint = priceint;
+        this.pricehalf = pricehalf;
+        this.pricefull = pricefull;
     }
 
     public String getName() {
@@ -44,8 +46,11 @@ public class NewProductModel implements Serializable {
         this.price = price;
     }
 
-    public int getPriceint() {
-        return priceint;
+    public int getpricehalf() {
+        return pricehalf;
+    }
+    public int getpricefull() {
+        return pricefull;
     }
 
     public String getImage_url() {
@@ -56,7 +61,7 @@ public class NewProductModel implements Serializable {
         this.image_url = image_url;
     }
 
-    public void setPriceint(int priceint) {
-        this.priceint = priceint;
+    public void setpricefull(int pricefull) {
+        this.pricefull = pricefull;
     }
 }

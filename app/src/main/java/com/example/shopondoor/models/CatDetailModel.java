@@ -8,19 +8,21 @@ public class CatDetailModel implements Serializable {
     String img_url;
     String type;
     String typedeatil;
-    int priceint;
+    int pricehalf;
+    int pricefull;
     String description;
 
     public CatDetailModel() {
     }
 
-    public CatDetailModel(String name, String price, String img_url, String type, String typedeatil, int priceint, String description) {
+    public CatDetailModel(String name, String price, String img_url, String type, String typedeatil, int pricehalf,int pricefull, String description) {
         this.name = name;
         this.price = price;
         this.img_url = img_url;
         this.type = type;
         this.typedeatil = typedeatil;
-        this.priceint = priceint;
+        this.pricehalf = pricehalf;
+        this.pricefull=pricefull;
         this.description = description;
     }
 
@@ -56,12 +58,19 @@ public class CatDetailModel implements Serializable {
         this.type = type;
     }
 
-    public int getPriceint() {
-        return priceint;
+    public int getPricehalf() {
+        return pricehalf;
     }
 
-    public void setPriceint(int priceint) {
-        this.priceint = priceint;
+    public void setPricehalf(int pricehalf) {
+        this.pricehalf = pricehalf;
+    }
+    public int getPricefull() {
+        return pricefull;
+    }
+
+    public void setPricefull(int pricefull) {
+        this.pricefull = pricefull;
     }
 
     public String getTypedeatil() {

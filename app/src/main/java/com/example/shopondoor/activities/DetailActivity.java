@@ -6,10 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,6 +58,8 @@ public class DetailActivity extends AppCompatActivity {
     LinearLayout linearLayout4;
     RelativeLayout relativeLayout;
     TextView details_quantity;
+    RadioGroup radioGroup;
+    RadioButton radio1,radio2;
 
     ViewAllModel viewAllModel = null;
     CatDetailModel catDetailModel=null;
@@ -70,6 +75,7 @@ public class DetailActivity extends AppCompatActivity {
     int totalPrice=0;
     double totaldiscountprice=0.0;
    double discountPrice=0.0;
+    private String TAG;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,13 +123,31 @@ public class DetailActivity extends AppCompatActivity {
         linearLayout4=findViewById(R.id.linearLayout4);
         relativeLayout=findViewById(R.id.relativeLayout);
         details_quantity=findViewById(R.id.deatails_quantity);
+        radioGroup=findViewById(R.id.radioGroup);
+        radio1=findViewById(R.id.radioButton1);
+        radio2=findViewById(R.id.radioButton2);
+
 
         if(viewAllModel!=null){
             Glide.with(getApplicationContext()).load(viewAllModel.getImg_url()).into(detailedImg);
             name.setText(viewAllModel.getName());
             description.setText(viewAllModel.getDescription());
             price.setText(viewAllModel.getPrice());
-            priceint=viewAllModel.getPriceint();
+//            radio1.setText(viewAllModel.getpricehalf());
+//            radio2.setText(viewAllModel.getpricefull());
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId){
+                        case R.id.radioButton1:
+                            priceint=viewAllModel.getpricehalf();
+                            break;
+                        case R.id.radioButton2:
+                            priceint=viewAllModel.getpricefull();
+                            break;
+                    }
+                }
+            });
 
         }
         else if(catDetailModel!=null){
@@ -131,7 +155,21 @@ public class DetailActivity extends AppCompatActivity {
             name.setText(catDetailModel.getName());
             description.setText(catDetailModel.getDescription());
             price.setText(catDetailModel.getPrice());
-            priceint=catDetailModel.getPriceint();
+//            radio1.setText(catDetailModel.getPricehalf());
+//            radio2.setText(catDetailModel.getPricefull());
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId){
+                        case R.id.radioButton1:
+                            priceint=catDetailModel.getPricehalf();
+                            break;
+                        case R.id.radioButton2:
+                            priceint=catDetailModel.getPricefull();
+                            break;
+                    }
+                }
+            });
 
         }
         else if(recomendedModel!=null){
@@ -139,7 +177,22 @@ public class DetailActivity extends AppCompatActivity {
             name.setText(recomendedModel.getName());
             description.setText(recomendedModel.getDescription());
             price.setText(recomendedModel.getPrice());
-            priceint=recomendedModel.getPriceint();
+//            radio1.setText(recomendedModel.getpricehalf());
+//            radio2.setText(recomendedModel.getpricefull());
+
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId){
+                        case R.id.radioButton1:
+                            priceint=recomendedModel.getpricehalf();
+                            break;
+                        case R.id.radioButton2:
+                            priceint=recomendedModel.getpricefull();
+                            break;
+                    }
+                }
+            });
 
         }
         else if(newProductModel!=null){
@@ -147,7 +200,21 @@ public class DetailActivity extends AppCompatActivity {
             name.setText(newProductModel.getName());
             description.setText(newProductModel.getDescription());
             price.setText(newProductModel.getPrice());
-            priceint=newProductModel.getPriceint();
+//            radio1.setText(newProductModel .getpricehalf());
+//            radio2.setText(newProductModel.getpricefull());
+            radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(RadioGroup group, int checkedId) {
+                    switch (checkedId){
+                        case R.id.radioButton1:
+                            priceint=newProductModel.getpricehalf();
+                            break;
+                        case R.id.radioButton2:
+                            priceint=newProductModel.getpricefull();
+                            break;
+                    }
+                }
+            });
 
         }
 

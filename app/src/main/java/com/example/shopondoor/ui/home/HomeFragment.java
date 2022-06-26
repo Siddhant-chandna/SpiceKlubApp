@@ -21,11 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shopondoor.R;
+import com.example.shopondoor.adapters.BannerAdapter;
 import com.example.shopondoor.adapters.CatDetailAdapter;
 import com.example.shopondoor.adapters.ExploreAdapter;
 import com.example.shopondoor.adapters.PopularAdapter;
 import com.example.shopondoor.adapters.RecomendedAdapter;
 import com.example.shopondoor.adapters.ViewAllAdapter;
+import com.example.shopondoor.models.BannerModel;
 import com.example.shopondoor.models.CatDetailModel;
 import com.example.shopondoor.models.ExploreModel;
 import com.example.shopondoor.models.PopularModel;
@@ -49,7 +51,7 @@ public class HomeFragment extends Fragment {
 
     ScrollView scrollView;
     ProgressBar progressBar;
-    RecyclerView popularRec,exploreRec,recomendedRec;
+    RecyclerView bannerRec,exploreRec,recomendedRec,popularRec;
     FirebaseFirestore db;
 
     // Search View
@@ -57,6 +59,9 @@ public class HomeFragment extends Fragment {
     private List<CatDetailModel> catDetailModelList;
     private RecyclerView recyclerViewSearch;
     private CatDetailAdapter catDetailAdapter;
+
+    List<BannerModel> bannerModelList;
+    com.example.shopondoor.adapters.BannerAdapter BannerAdapter;
 
     //Popular Items
     List<PopularModel> popularModelList;
@@ -76,6 +81,7 @@ public class HomeFragment extends Fragment {
         View root=inflater.inflate(R.layout.fragment_home,container,false);
         db=FirebaseFirestore.getInstance();
 
+        bannerRec=root.findViewById(R.id.banner_rec);
         popularRec=root.findViewById(R.id.popular_rec);
         exploreRec=root.findViewById(R.id.explore_rec);
         recomendedRec=root.findViewById(R.id.recomended_rec);
@@ -98,9 +104,35 @@ public class HomeFragment extends Fragment {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                               PopularModel popularModel=document.toObject(PopularModel.class);
-                               popularModelList.add(popularModel);
-                               popularAdapter.notifyDataSetChanged();
+                                PopularModel popularModel=document.toObject(PopularModel.class);
+                                popularModelList.add(popularModel);
+                                popularAdapter.notifyDataSetChanged();
+
+                                progressBar.setVisibility(View.GONE);
+                                scrollView.setVisibility(View.VISIBLE);
+                            }
+                        } else {
+                            Toast.makeText(getActivity(), "Error:"+task.getException(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        // Banner Items
+        bannerRec.setLayoutManager(new LinearLayoutManager(getActivity(),RecyclerView.HORIZONTAL,false));
+        bannerModelList=new ArrayList<>();
+        BannerAdapter=new BannerAdapter(getActivity(),bannerModelList);
+        bannerRec.setAdapter(BannerAdapter);
+
+        db.collection("Banner")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                               BannerModel bannerModel=document.toObject(BannerModel.class);
+                               bannerModelList.add(bannerModel);
+                               BannerAdapter.notifyDataSetChanged();
 
                                 progressBar.setVisibility(View.GONE);
                                 scrollView.setVisibility(View.VISIBLE);

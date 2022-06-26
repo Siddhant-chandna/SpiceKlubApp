@@ -27,10 +27,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.shopondoor.activities.LogInActivity;
 import com.example.shopondoor.activities.OrderPlacedActivity;
 import com.example.shopondoor.adapters.MyCartAdapter;
 import com.example.shopondoor.models.MyCartModel;
@@ -66,7 +68,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MyCartFragment extends Fragment implements PaymentResultListener {
+public class MyCartFragment extends Fragment  {
 
 
     private static final String TAG = "Tag";
@@ -193,7 +195,7 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                getFragmentManager().beginTransaction().detach(MyCartFragment.this).attach(MyCartFragment.this).commit();
                 if(myCartModelList.size()>0){
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         getLocation();
@@ -239,21 +241,32 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
                         AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
                         builder.setTitle("Confirm Address");
 
+                        LinearLayout layout = new LinearLayout(getContext());
+                        layout.setOrientation(LinearLayout.VERTICAL);
 
-                        EditText AddLocal=new EditText(getActivity());
-                        AddLocal.setInputType(InputType.TYPE_CLASS_TEXT);
-                        builder.setView(AddLocal);
-                        AddLocal.setVisibility(View.VISIBLE);
-                        AddLocal.setHint("Enter Locality");
+                        final EditText AddLocation=new EditText(getActivity());
+                        AddLocation.setInputType(InputType.TYPE_CLASS_TEXT);
+                        layout.addView(AddLocation);
+                        AddLocation.setVisibility(View.VISIBLE);
+                        AddLocation.setHint("Add Locality");
+                        final EditText AddLocal2=new EditText(getActivity());
+                        AddLocal2.setInputType(InputType.TYPE_CLASS_TEXT);
+                        layout.addView(AddLocal2);
+                        AddLocal2.setVisibility(View.GONE);
+
+                        builder.setView(layout);
 
                         builder.setSingleChoiceItems(status, 0, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 if(which==0){
-                                    AddLocal.setHint("Enter Locality");
+                                    AddLocation.setHint("Enter Locality");
+                                    AddLocal2.setVisibility(View.GONE);
                                 }
                                 else if(which==1){
-                                    AddLocal.setHint("Enter Complete Address");
+                                    AddLocal2.setVisibility(View.VISIBLE);
+                                    AddLocation.setHint("Enter Complete Address");
+                                    AddLocal2.setHint("Enter City");
                                 }
 
                             }
@@ -261,13 +274,28 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
                         builder.setPositiveButton("Confirm to Payment", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String myText = AddLocal.getText().toString();
+                                String myText = AddLocation.getText().toString();
+                                String myCity = AddLocal2.getText().toString();
 
                                     database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("locality").setValue(myText);
                                     double lat2=(addresses.get(0).getLatitude());
                                     double lon2=(addresses.get(0).getLongitude());
+
+//                                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+//                                List<Address> addresses = null;
+//                                try {
+//                                    addresses = geocoder.getFromLocationName(myCity, 1);
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                if(addresses.size() > 0) {
+//                                    double latitude= addresses.get(0).getLatitude();
+//                                    double longitude= addresses.get(0).getLongitude();
+//                                }
+
 //                                23.374039,85.331263
-                                    distRad=getDistance(23.831982,86.419112,lat2,lon2);
+                                //29.969513,76.878281
+                                    distRad=getDistance(23.809839,86.355209,lat2,lon2);
                                     if(distRad<=5){
 
                                         database.getReference().child("Users").child(auth.getCurrentUser().getUid())
@@ -277,9 +305,11 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
                                                         String amount = snapshot.child("discountedPrice").getValue().toString();
                                                         String name = snapshot.child("name").getValue().toString();
                                                         String email = snapshot.child("email").getValue().toString();
-                                                        String phone=snapshot.child("phn").getValue().toString();
+                                                        String phone=snapshot.child("phone").getValue().toString();
                                                         String city=snapshot.child("city").getValue().toString();
-                                                        PaymentMethod(amount,name,phone,email,city);
+                                                        PaymentMethod(amount,name,email,city,phone);
+
+
                                                     }
 
                                                     @Override
@@ -291,7 +321,7 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
 
                                     }
                                     else{
-                                        Toast.makeText(getActivity(), "Sorry! We deliver only within 5Km radius of Our Restaurant", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getActivity(), "Sorry! We deliver only within 5Km radius of Our Store", Toast.LENGTH_SHORT).show();
                                     }
 
                                     dialog.dismiss();
@@ -313,10 +343,11 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
         });
     }
 
-    private void PaymentMethod(String amount,String name,String phone,String email,String city) {
+    private void PaymentMethod(String amount,String name,String email,String city,String phone) {
         final Activity activity=getActivity();
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_o3BtzZ9fXROPEo");
+        checkout.setKeyID("rzp_test_CB5l3lYsWbEQzk");
+        // rzp_test_BRyGdm2LMgSoUi
         checkout.setImage(R.drawable.ic_baseline_person_24);
 
 
@@ -326,7 +357,7 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
             JSONObject options = new JSONObject();
             options.put("name", name);
             options.put("image", "https://s3.amazonaws.com/rzp-mobile/images/rzp.png");
-            // options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
+//            options.put("order_id", "order_DBJOWzybf0sJbb");//from response of step 3.
             options.put("theme.color", "#3399cc");
             options.put("currency", "INR");
             options.put("amount", finalAmount+"");//300 X 100
@@ -334,7 +365,9 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
             options.put("prefill.email", email);
             options.put("city",city);
 
-            checkout.open(activity, options);
+
+            checkout.open(getActivity(), options);
+            getFragmentManager().beginTransaction().detach(MyCartFragment.this).attach(MyCartFragment.this).commit();
 
         } catch(Exception e) {
             Log.e("TAG", "Error in starting Razorpay Checkout", e);
@@ -344,7 +377,7 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
 
 
     private void calculateTotalAmount(List<MyCartModel> myCartModelList) {
-
+        getFragmentManager().beginTransaction().detach(MyCartFragment.this).attach(MyCartFragment.this).commit();
         double totalAmountCart=0.0;
         for(MyCartModel myCartModel : myCartModelList){
             totalAmountCart += myCartModel.getTotalPrice();
@@ -388,29 +421,5 @@ public class MyCartFragment extends Fragment implements PaymentResultListener {
         return (rad * 180.0 / Math.PI);
     }
 
-    @Override
-    public void onPaymentSuccess(String s) {
 
-        Intent intent=new Intent(getContext(), OrderPlacedActivity.class);
-        intent.putExtra("itemList",(Serializable) myCartModelList);
-        startActivity(intent);
-
-        db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
-                .collection("AddToCart").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        for(QueryDocumentSnapshot snapshot:task.getResult()){
-                            db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
-                                    .collection("AddToCart").document(snapshot.getId()).delete();
-                        }
-                    }
-                });
-        database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("discountedPrice").setValue("0");
-    }
-
-    @Override
-    public void onPaymentError(int i, String s) {
-        Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
-    }
 }

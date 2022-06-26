@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -65,6 +66,7 @@ public class CatDetailAdapter extends RecyclerView.Adapter<CatDetailAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView name,price,description;
+        RadioButton radio1,radio2;
         public ViewHolder(@NonNull @NotNull View itemView) {
             super(itemView);
 

@@ -64,6 +64,7 @@ public class LogInActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
             }
         });
+
     }
 
     private void loginUser(){

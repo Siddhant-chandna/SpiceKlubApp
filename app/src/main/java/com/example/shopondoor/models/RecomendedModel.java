@@ -8,18 +8,20 @@ public class RecomendedModel implements Serializable {
     String rating;
     String description;
     String price;
-    int priceint;
+    int pricehalf;
+    int pricefull;
 
     public RecomendedModel() {
     }
 
-    public RecomendedModel(String name, String img_url, String rating, String description, String price,int priceint) {
+    public RecomendedModel(String name, String img_url, String rating, String description, String price,int pricehalf,int pricefull) {
         this.name = name;
         this.img_url = img_url;
         this.rating = rating;
         this.description = description;
         this.price = price;
-        this.priceint=priceint;
+        this.pricehalf=pricehalf;
+        this.pricefull=pricefull;
     }
 
     public String getName() {
@@ -62,11 +64,18 @@ public class RecomendedModel implements Serializable {
         this.price = price;
     }
 
-    public int getPriceint() {
-        return priceint;
+    public int getpricehalf() {
+        return pricehalf;
     }
 
-    public void setPriceint(int priceint) {
-        this.priceint = priceint;
+    public void setpricehalf(int pricehalf) {
+        this.pricehalf = pricehalf;
+    }
+    public int getpricefull() {
+        return pricefull;
+    }
+
+    public void setpricefull(int pricefull) {
+        this.pricefull = pricefull;
     }
 }

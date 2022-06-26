@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.type.DateTime;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -39,6 +40,8 @@ public class OrderPlacedActivity extends AppCompatActivity {
     String address;
     String locality;
     String city;
+    String phone;
+    String name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,9 @@ public class OrderPlacedActivity extends AppCompatActivity {
                         address = snapshot.child("address").getValue().toString();
                         city = snapshot.child("city").getValue().toString();
                         locality = snapshot.child("locality").getValue().toString();
+                        name = snapshot.child("name").getValue().toString();
+                        phone = snapshot.child("phone").getValue().toString();
+
                         AddOrder();
                     }
 
@@ -68,14 +74,15 @@ public class OrderPlacedActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-
-
-
         }
+
+
 
         public void AddOrder(){
             List<MyCartModel> myCartModelList=(ArrayList<MyCartModel>)getIntent().getSerializableExtra("itemList");
+            if(myCartModelList==null){
+                Toast.makeText(OrderPlacedActivity.this, "NULLLLLLLLLLLLLLLLLLLLLLLLLL", Toast.LENGTH_SHORT).show();
+            }
             if (myCartModelList != null && myCartModelList.size() > 0) {
                 String saveCureentDate,saveCurrentTime;
                 Calendar calForDate= Calendar.getInstance();
@@ -85,7 +92,9 @@ public class OrderPlacedActivity extends AppCompatActivity {
 
                 SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
                 saveCurrentTime=currentTime.format(calForDate.getTime());
-                for (MyCartModel model : myCartModelList) {
+
+
+                for(MyCartModel model:myCartModelList){
                     final HashMap<String, Object> cartMap = new HashMap<>();
 
                     cartMap.put("productName", model.getProductName());
@@ -101,7 +110,8 @@ public class OrderPlacedActivity extends AppCompatActivity {
                     cartMap.put("address", address);
                     cartMap.put("city",city);
                     cartMap.put("locality", locality);
-
+                    cartMap.put("phone",phone);
+                    cartMap.put("name",name);
                     firestore.collection("CurrentUser").document(auth.getCurrentUser().getUid())
                             .collection("MyOrder").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
@@ -112,6 +122,7 @@ public class OrderPlacedActivity extends AppCompatActivity {
 
                     });
                 }
+                myCartModelList.clear();
             }
         }
     }

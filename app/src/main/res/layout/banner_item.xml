@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="5dp"
+    app:cardCornerRadius="15dp">
+
+    <LinearLayout
+        android:layout_width="270dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:background="#B3FB9F">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/banner_img"
+            android:layout_width="264dp"
+            android:layout_height="190dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/offers3"
+            app:riv_corner_radius="14dp" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

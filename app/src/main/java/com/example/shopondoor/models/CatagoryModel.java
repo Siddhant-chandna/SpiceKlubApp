@@ -6,16 +6,20 @@ public class CatagoryModel {
     String discount;
     String img_url;
     String type;
+    int pricehalf;
+    int pricefull;
 
     public CatagoryModel() {
     }
 
-    public CatagoryModel(String name, String type,String description, String discount, String img_url) {
+    public CatagoryModel(String name, String type,String description, String discount, String img_url,int pricefull,int pricehalf) {
         this.name = name;
         this.description = description;
         this.discount = discount;
         this.img_url = img_url;
         this.type=type;
+        this.pricefull=pricefull;
+        this.pricehalf=pricehalf;
     }
 
     public String getName() {
@@ -56,5 +60,21 @@ public class CatagoryModel {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public int getPricehalf() {
+        return pricehalf;
+    }
+
+    public void setPricehalf(int pricehalf) {
+        this.pricehalf = pricehalf;
+    }
+
+    public int getPricefull() {
+        return pricefull;
+    }
+
+    public void setPricefull(int pricefull) {
+        this.pricefull = pricefull;
     }
 }

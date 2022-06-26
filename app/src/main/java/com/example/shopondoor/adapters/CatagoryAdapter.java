@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -48,6 +49,7 @@ public class CatagoryAdapter extends RecyclerView.Adapter<CatagoryAdapter.ViewHo
         Glide.with(context).load(catagoryModellist.get(position).getImg_url()).into(holder.imageView);
         holder.name.setText(catagoryModellist.get(position).getName());
         holder.description.setText(catagoryModellist.get(position).getDescription());
+
 
         db.collection("Discount").document("J3YBD9f1L0nBeI9Fr0s1")
                 .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {

@@ -2,6 +2,7 @@ package com.example.shopondoor.ui.profile;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -62,16 +64,19 @@ public class ProfileFragment extends Fragment {
          email=root.findViewById(R.id.profile_email);
          phone=root.findViewById(R.id.profile_phone);
          address=root.findViewById(R.id.profile_address);
-        update=root.findViewById(R.id.profile_update);
+         update=root.findViewById(R.id.profile_update);
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.N)
                     @Override
                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                         UserModel userModel=snapshot.getValue(UserModel.class);
                         Glide.with(getContext()).load(userModel.getProfileImg()).into(profileimg);
                         name.setText(userModel.getName());
                         email.setText(userModel.getEmail());
+                        phone.setText(userModel.getPhone());
+                        address.setText(userModel.getAddress());
                     }
 
                     @Override
@@ -94,6 +99,20 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 updateUserProfile();
+                String myName = name.getText().toString();
+                String myEmail = email.getText().toString();
+                String myPhone = phone.getText().toString();
+                String myAddress = address.getText().toString();
+                if(myPhone.length()!=10){
+                    Toast.makeText(getActivity(), "Invalid Phone Number", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("phone").setValue(myPhone);
+                }
+                database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("name").setValue(myName);
+                database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("email").setValue(myEmail);
+                database.getReference().child("Users").child(auth.getCurrentUser().getUid()).child("address").setValue(myAddress);
+                Toast.makeText(getActivity(), "Updated!", Toast.LENGTH_SHORT).show();
             }
         });
 

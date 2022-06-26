@@ -6,7 +6,9 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,7 +36,7 @@ import java.util.Map;
 public class SignUpActivity extends AppCompatActivity {
 
     Button signUp;
-    EditText name,email,password;
+    EditText name,email,phone,password;
     TextView signIn;
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -49,6 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUp = findViewById(R.id.reg_btn);
         name = findViewById(R.id.name_reg);
         email = findViewById(R.id.email_reg);
+        phone=findViewById(R.id.phone_reg);
         password = findViewById(R.id.password_reg);
         signIn = findViewById(R.id.sign_in);
         auth=FirebaseAuth.getInstance();
@@ -77,13 +80,17 @@ public class SignUpActivity extends AppCompatActivity {
         private void createUser(){
             String userName=name.getText().toString();
             String userEmail=email.getText().toString();
+            String userPhone=phone.getText().toString();
             String userPassword=password.getText().toString();
 
             if(TextUtils.isEmpty(userName)){
                 Toast.makeText(this,"Name is Empty!",Toast.LENGTH_SHORT).show();
             }
             if(TextUtils.isEmpty(userEmail)){
-                Toast.makeText(this,"Name is Empty!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Email is Empty!",Toast.LENGTH_SHORT).show();
+            }
+            if(TextUtils.isEmpty(userPhone)){
+                Toast.makeText(this,"Phone is Empty!",Toast.LENGTH_SHORT).show();
             }
             if(TextUtils.isEmpty(userPassword)){
                 Toast.makeText(this,"Password is Empty!",Toast.LENGTH_SHORT).show();
@@ -99,11 +106,14 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                UserModel userModel=new UserModel(userName,userEmail,userPassword);
+                                UserModel userModel=new UserModel(userName,userEmail,userPhone,userPassword);
                                 String id=auth.getCurrentUser().getUid();
                                 progressBar.setVisibility(View.GONE);
                                 database.getReference().child("Users").child(id).setValue(userModel);
-                                startActivity(new Intent(SignUpActivity.this, LogInActivity.class));
+                                Intent phoneeee = new Intent(SignUpActivity.this,Login_Phone.class);
+                                phoneeee.putExtra("phone",phone.getText().toString());
+                                startActivity(phoneeee);
+//                                Log.d(TAG, "onSuccess: "+"+91"+userPhone.toString() );
 
                                 final HashMap<String, Object> cartMap = new HashMap<>();
 

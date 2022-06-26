@@ -17,6 +17,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.shopondoor.MyCartFragment;
 import com.example.shopondoor.R;
 import com.example.shopondoor.activities.DetailActivity;
 import com.example.shopondoor.models.MyCartModel;
@@ -81,7 +82,6 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                                     myCartModelList.remove(myCartModelList.get(position));
                                     notifyDataSetChanged();
                                     Toast.makeText(context, "Item Successfully Deleted", Toast.LENGTH_SHORT).show();
-
                                 }
                                 else{
                                     Toast.makeText(context, "Error:"+task.getException(), Toast.LENGTH_SHORT).show();

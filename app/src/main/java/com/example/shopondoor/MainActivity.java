@@ -12,8 +12,19 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.shopondoor.activities.LogInActivity;
+<<<<<<< Updated upstream
+=======
+import com.example.shopondoor.activities.OrderPlacedActivity;
+import com.example.shopondoor.adapters.MyCartAdapter;
+>>>>>>> Stashed changes
 import com.example.shopondoor.databinding.FragmentCatagoryBinding;
 import com.example.shopondoor.models.UserModel;
+<<<<<<< Updated upstream
+=======
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+//import com.google.android.gms.wallet.callback.OnCompleteListener;
+>>>>>>> Stashed changes
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -32,12 +43,29 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+<<<<<<< Updated upstream
 
 import org.jetbrains.annotations.NotNull;
 
+=======
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.razorpay.PaymentResultListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+>>>>>>> Stashed changes
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements PaymentResultListener {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -51,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        myCartModelList = new ArrayList<>();
 
 
         setSupportActionBar(binding.appBarMain.toolbar);
@@ -73,6 +102,23 @@ public class MainActivity extends AppCompatActivity {
         TextView headerName=headerView.findViewById(R.id.nav_name);
         TextView headerEmail=headerView.findViewById(R.id.nav_email);
         CircleImageView headerImage=headerView.findViewById(R.id.nav_profile_img);
+
+        db.collection("CurrentUser").document(auth.getCurrentUser().getUid())
+                .collection("AddToCart").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (DocumentSnapshot documentSnapshot : task.getResult().getDocuments()) {
+
+                        String documentId = documentSnapshot.getId();
+
+                        MyCartModel myCartModel = documentSnapshot.toObject(MyCartModel.class);
+                        myCartModel.setDocumentId(documentId);
+                        myCartModelList.add(myCartModel);
+                    }
+                }
+            }
+        });
 
         database.getReference().child("Users").child(FirebaseAuth.getInstance().getUid())
                 .addListenerForSingleValueEvent(new ValueEventListener() {

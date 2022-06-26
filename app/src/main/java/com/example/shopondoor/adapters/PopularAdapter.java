@@ -77,7 +77,7 @@ public class PopularAdapter extends RecyclerView.Adapter<PopularAdapter.ViewHold
         return popularModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView popImg;
         TextView name,description,rating,discount;
         public ViewHolder(@NonNull View itemView){
