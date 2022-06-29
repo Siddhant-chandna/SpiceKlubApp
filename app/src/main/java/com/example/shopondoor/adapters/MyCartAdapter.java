@@ -81,6 +81,9 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                                 if(task.isSuccessful()){
                                     myCartModelList.remove(myCartModelList.get(position));
                                     notifyDataSetChanged();
+                                    if(myCartModelList.size()==0){
+                                        FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("discountedPrice").setValue("0");
+                                    }
                                     Toast.makeText(context, "Item Successfully Deleted", Toast.LENGTH_SHORT).show();
                                 }
                                 else{

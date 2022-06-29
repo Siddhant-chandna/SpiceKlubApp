@@ -133,8 +133,6 @@ public class DetailActivity extends AppCompatActivity {
             name.setText(viewAllModel.getName());
             description.setText(viewAllModel.getDescription());
             price.setText(viewAllModel.getPrice());
-//            radio1.setText(viewAllModel.getpricehalf());
-//            radio2.setText(viewAllModel.getpricefull());
             radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -150,7 +148,7 @@ public class DetailActivity extends AppCompatActivity {
             });
 
         }
-        else if(catDetailModel!=null){
+        if(catDetailModel!=null){
             Glide.with(getApplicationContext()).load(catDetailModel.getImg_url()).into(detailedImg);
             name.setText(catDetailModel.getName());
             description.setText(catDetailModel.getDescription());
@@ -172,7 +170,7 @@ public class DetailActivity extends AppCompatActivity {
             });
 
         }
-        else if(recomendedModel!=null){
+        if(recomendedModel!=null){
             Glide.with(getApplicationContext()).load(recomendedModel.getImg_url()).into(detailedImg);
             name.setText(recomendedModel.getName());
             description.setText(recomendedModel.getDescription());
@@ -195,7 +193,7 @@ public class DetailActivity extends AppCompatActivity {
             });
 
         }
-        else if(newProductModel!=null){
+        if(newProductModel!=null){
             Glide.with(getApplicationContext()).load(newProductModel.getImage_url()).into(detailedImg);
             name.setText(newProductModel.getName());
             description.setText(newProductModel.getDescription());
@@ -318,7 +316,7 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("totalPrice", totalPrice);
             cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
-        else if(catDetailModel!=null){
+        if(catDetailModel!=null){
             cartMap.put("productName", catDetailModel.getName());
             cartMap.put("productImage", catDetailModel.getImg_url());
             cartMap.put("productPriceint", priceint);
@@ -329,7 +327,8 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("totalPrice", totalPrice);
             cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
-        else if(recomendedModel!=null){
+        if(recomendedModel!=null){
+            Log.d(TAG, "addedtoCart: rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
             cartMap.put("productName", recomendedModel.getName());
             cartMap.put("productImage", recomendedModel.getImg_url());
             cartMap.put("productPriceint", priceint);
@@ -340,7 +339,7 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("totalPrice", totalPrice);
             cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
-        else if(newProductModel!=null){
+        if(newProductModel!=null){
             cartMap.put("productName", newProductModel.getName());
             cartMap.put("productImage", newProductModel.getImage_url());
             cartMap.put("productPriceint", priceint);

@@ -1,7 +1,5 @@
 package com.example.shopondoor.models;
 
-import android.text.Editable;
-
 public class UserModel {
     String name;
     String email;
@@ -9,25 +7,20 @@ public class UserModel {
     String profileImg;
     String phone;
     String address;
+    String OrderId;
+//    String discountedPrice;
 
     public UserModel() {
     }
 
-    public UserModel(String userName, String userEmail,String userPhone, String userPassword) {
+    public UserModel(String userName, String userEmail,String userPhone, String userPassword,String OrderId) {
 
         this.name=userName;
         this.email=userEmail;
         this.phone=userPhone;
         this.password=userPassword;
-    }
-
-    public UserModel(String name, String email, String password, String profileImg, String phone, String address) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.profileImg = profileImg;
-        this.phone = phone;
-        this.address = address;
+        this.OrderId=OrderId;
+//        this.discountedPrice=discountedPrice;
     }
 
 
@@ -78,4 +71,20 @@ public class UserModel {
     public void setAddress(String address) {
         this.address = address;
     }
+
+    public String getOrderId() {
+        return name;
+    }
+
+    public void setOrderId(String name) {
+        this.address = name;
+    }
+
+//    public String getDiscountedPrice() {
+//        return "";
+//    }
+//
+//    public void setDiscountedPrice(String discountedPrice) {
+//        this.discountedPrice =discountedPrice ;
+//    }
 }

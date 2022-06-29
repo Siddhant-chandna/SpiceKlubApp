@@ -37,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/aclonica"
-        android:text="ThankYou for Shopping with Us!"
+        android:text="Hope You Have a Great Taste!"
         android:textAlignment="center"
         android:textColor="@color/purple_500"
         android:textSize="22sp"
