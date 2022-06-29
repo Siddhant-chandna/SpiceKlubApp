@@ -89,6 +89,7 @@ public class MyCartFragment extends Fragment  {
     List<Address> addresses;
     FusedLocationProviderClient fusedLocationProviderClient;
     double distRad=0;
+    int count=0;
 
 
     public MyCartFragment() {
@@ -195,8 +196,9 @@ public class MyCartFragment extends Fragment  {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().detach(MyCartFragment.this).attach(MyCartFragment.this).commit();
-                if(myCartModelList.size()>0){
+
+                if(myCartModelList.size()>0 && myCartModelList!=null){
+                    count=1;
                     if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         getLocation();
                     } else {
@@ -307,7 +309,12 @@ public class MyCartFragment extends Fragment  {
                                                         String email = snapshot.child("email").getValue().toString();
                                                         String phone=snapshot.child("phone").getValue().toString();
                                                         String city=snapshot.child("city").getValue().toString();
-                                                        PaymentMethod(amount,name,email,city,phone);
+                                                        if(myCartModelList.size()!=0 && myCartModelList!=null){
+                                                            PaymentMethod(amount,name,email,city,phone);
+//                                                            Intent intent = new Intent(getActivity(), MainActivity.class);
+//                                                            intent.putExtra("itemCartList", (Serializable) myCartModelList);
+//                                                            startActivity(intent);
+                                                        }
 
 
                                                     }
@@ -367,7 +374,7 @@ public class MyCartFragment extends Fragment  {
 
 
             checkout.open(getActivity(), options);
-            getFragmentManager().beginTransaction().detach(MyCartFragment.this).attach(MyCartFragment.this).commit();
+
 
         } catch(Exception e) {
             Log.e("TAG", "Error in starting Razorpay Checkout", e);
@@ -377,7 +384,7 @@ public class MyCartFragment extends Fragment  {
 
 
     private void calculateTotalAmount(List<MyCartModel> myCartModelList) {
-        getFragmentManager().beginTransaction().detach(MyCartFragment.this).attach(MyCartFragment.this).commit();
+
         double totalAmountCart=0.0;
         for(MyCartModel myCartModel : myCartModelList){
             totalAmountCart += myCartModel.getTotalPrice();

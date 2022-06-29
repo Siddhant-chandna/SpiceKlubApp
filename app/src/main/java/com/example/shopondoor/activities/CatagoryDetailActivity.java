@@ -114,6 +114,21 @@ public class CatagoryDetailActivity extends AppCompatActivity {
             });
         }
 
+        // icecream
+        if(type!= null && type.equalsIgnoreCase("fruit")){
+            db.collection("CatagoryDeatils").whereEqualTo("type","fruit").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull @NotNull Task<QuerySnapshot> task) {
+
+                    for(DocumentSnapshot documentSnapshot:task.getResult().getDocuments()){
+                        CatDetailModel catDetailModel=documentSnapshot.toObject(CatDetailModel.class);
+                        catDetailModelList.add(catDetailModel);
+                        catDetailAdapter.notifyDataSetChanged();
+                    }
+                }
+            });
+        }
+
 
     }
 }

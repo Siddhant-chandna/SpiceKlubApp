@@ -82,6 +82,8 @@ public class SignUpActivity extends AppCompatActivity {
             String userEmail=email.getText().toString();
             String userPhone=phone.getText().toString();
             String userPassword=password.getText().toString();
+            String OrderId="Random";
+//            String discountedPrice="";
 
             if(TextUtils.isEmpty(userName)){
                 Toast.makeText(this,"Name is Empty!",Toast.LENGTH_SHORT).show();
@@ -106,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
                             if(task.isSuccessful()){
-                                UserModel userModel=new UserModel(userName,userEmail,userPhone,userPassword);
+                                UserModel userModel=new UserModel(userName,userEmail,userPhone,userPassword,OrderId);
                                 String id=auth.getCurrentUser().getUid();
                                 progressBar.setVisibility(View.GONE);
                                 database.getReference().child("Users").child(id).setValue(userModel);

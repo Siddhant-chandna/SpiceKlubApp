@@ -69,23 +69,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/alice"
-                    android:gravity="center"
-                    android:text="Popular Products"
+                    android:gravity="left"
+                    android:text="Popular Items"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/view_all_popular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/alice"
-                    android:gravity="end"
-                    android:text="View All"
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -109,23 +97,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/alice"
-                    android:gravity="center"
-                    android:text="Explore Products"
+                    android:gravity="left"
+                    android:text="Explore Us"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/view_all_explore"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/alice"
-                    android:gravity="end"
-                    android:text="View All"
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp" />
 
             </LinearLayout>
 
@@ -148,23 +125,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/alice"
-                    android:gravity="center"
-                    android:text="Recomended Products"
+                    android:gravity="left"
+                    android:text="Chef's Special"
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/view_all_recomended"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="7dp"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/alice"
-                    android:gravity="end"
-                    android:text="View All"
-                    android:textColor="@color/purple_700"
-                    android:textSize="16sp" />
 
             </LinearLayout>
 
