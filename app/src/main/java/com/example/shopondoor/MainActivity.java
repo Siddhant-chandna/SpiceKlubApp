@@ -128,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
                 if(Oid.length()>5){
                    String Id=Oid.substring(Oid.length() - 5);
                    String iid=Oid.substring(0,Oid.length()-5);
-                    Log.d(TAG, "onDataChange: eeeeepppp "+Id);
-                    Log.d(TAG, "onDataChange: eee "+iid);
 
                    FirebaseFirestore.getInstance().collection("CurrentUser").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                            .collection("MyOrder").document(iid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -139,7 +137,6 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
 
                            if(documentSnapshot.exists()){
                                Food=documentSnapshot.getString("productName");
-                               Log.d(TAG, "onComplete: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee111111");
                                if(Id.equals(A1)){
                                    notification1(Name);
                                    database.getInstance().getReference().child("Users").child(Uid).child("orderId").setValue("Done");
