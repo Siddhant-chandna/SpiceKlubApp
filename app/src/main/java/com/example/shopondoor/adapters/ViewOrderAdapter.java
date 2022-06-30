@@ -46,7 +46,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.View
         holder.name.setText(viewOrderModellist.get(position).getProductName());
         holder.price.setText(viewOrderModellist.get(position).getProductPrice());
         holder.quantity.setText(viewOrderModellist.get(position).getTotalQuantity());
-        holder.time.setText(viewOrderModellist.get(position).getCurrentTime());
+//        holder.time.setText(viewOrderModellist.get(position).getCurrentTime());
         holder.date.setText(viewOrderModellist.get(position).getCurrentDate());
         holder.totalPrice.setText(String.valueOf(viewOrderModellist.get(position).getTotaldiscountPrice()));
         holder.orderStatus.setText(viewOrderModellist.get(position).getOrderStatus());
@@ -70,7 +70,7 @@ public class ViewOrderAdapter extends RecyclerView.Adapter<ViewOrderAdapter.View
             price=itemView.findViewById(R.id.order_price);
             quantity=itemView.findViewById(R.id.order_quantity);
             totalPrice=itemView.findViewById(R.id.order_total_price);
-            time=itemView.findViewById(R.id.order_time);
+//            time=itemView.findViewById(R.id.order_time);
             date=itemView.findViewById(R.id.order_date);
             orderStatus=itemView.findViewById(R.id.orderStatus);
         }

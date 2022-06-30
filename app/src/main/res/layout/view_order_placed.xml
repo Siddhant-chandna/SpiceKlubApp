@@ -132,25 +132,16 @@
 
             <TextView
                 android:id="@+id/order_date"
-                android:layout_width="294dp"
+                android:layout_width="485dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:fontFamily="@font/alice"
                 android:text="Order Date"
-                android:textSize="20sp"
                 android:textColor="@color/black"
-                />
+                android:textSize="20sp" />
 
 
-            <TextView
-                android:id="@+id/order_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="@font/alice"
-                android:text="Order Time"
-                android:textColor="@color/purple_700"
-                android:textSize="22sp" />
+
 
         </LinearLayout>
         <TextView

@@ -297,7 +297,8 @@ public class MyCartFragment extends Fragment  {
 
 //                                23.374039,85.331263
                                 //29.969513,76.878281
-                                    distRad=getDistance(23.809839,86.355209,lat2,lon2);
+
+                                    distRad=getDistance(23.723976,86.4057984,lat2,lon2);
                                     if(distRad<=5){
 
                                         database.getReference().child("Users").child(auth.getCurrentUser().getUid())
@@ -310,7 +311,7 @@ public class MyCartFragment extends Fragment  {
                                                         String phone=snapshot.child("phone").getValue().toString();
                                                         String city=snapshot.child("city").getValue().toString();
                                                         if(myCartModelList.size()!=0 && myCartModelList!=null){
-                                                            PaymentMethod(amount,name,email,city,phone);
+                                                                PaymentMethod(amount,name,email,city,phone);
 //                                                            Intent intent = new Intent(getActivity(), MainActivity.class);
 //                                                            intent.putExtra("itemCartList", (Serializable) myCartModelList);
 //                                                            startActivity(intent);

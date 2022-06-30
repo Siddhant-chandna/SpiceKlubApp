@@ -94,11 +94,11 @@ public class OrderPlacedActivity extends AppCompatActivity {
                 String saveCureentDate,saveCurrentTime;
                 Calendar calForDate= Calendar.getInstance();
 
-                SimpleDateFormat currentDate=new SimpleDateFormat("MM,dd,yyyy");
+                SimpleDateFormat currentDate=new SimpleDateFormat("yyyy/MM/dd kk:mm:ss a");
                 saveCureentDate=currentDate.format(calForDate.getTime());
 
-                SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
-                saveCurrentTime=currentTime.format(calForDate.getTime());
+//                SimpleDateFormat currentTime=new SimpleDateFormat("HH:mm:ss a");
+//                saveCurrentTime=currentTime.format(calForDate.getTime());
 
 
                 for(MyCartModel model:myCartModelList){
@@ -112,7 +112,7 @@ public class OrderPlacedActivity extends AppCompatActivity {
                     cartMap.put("totalPrice", model.getTotalPrice());
                     cartMap.put("totaldiscountPrice",model.getTotaldiscountPrice());
                     cartMap.put("currentDate", saveCureentDate);
-                    cartMap.put("currentTime", saveCurrentTime);
+//                    cartMap.put("currentTime", saveCurrentTime);
                     cartMap.put("orderStatus", orderStatus);
                     cartMap.put("address", address);
                     cartMap.put("city",city);

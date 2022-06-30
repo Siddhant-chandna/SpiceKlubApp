@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         Uid.trim();
         reference=database.getInstance().getReference().child("Users").child(Uid);
         reference.addValueEventListener(new ValueEventListener() {
-            private String TAG;
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -129,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
                 if(Oid.length()>5){
                    String Id=Oid.substring(Oid.length() - 5);
                    String iid=Oid.substring(0,Oid.length()-5);
+                    Log.d(TAG, "onDataChange: eeeeepppp "+Id);
+                    Log.d(TAG, "onDataChange: eee "+iid);
 
                    FirebaseFirestore.getInstance().collection("CurrentUser").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                            .collection("MyOrder").document(iid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -138,8 +139,9 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
 
                            if(documentSnapshot.exists()){
                                Food=documentSnapshot.getString("productName");
+                               Log.d(TAG, "onComplete: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee111111");
                                if(Id.equals(A1)){
-                                   notification1(Name,Food);
+                                   notification1(Name);
                                    database.getInstance().getReference().child("Users").child(Uid).child("orderId").setValue("Done");
                                }
                                else if(Id.equals(A2)){
@@ -209,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
 
     }
 
-    private void notification1(String Name,String Food){
+    private void notification1(String Name){
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
             NotificationChannel channel=new NotificationChannel("n","n", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager=getSystemService(NotificationManager.class);
@@ -217,7 +219,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         }
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,"n")
                 .setContentText("Your Order for "+Food+" is Confirmed")
-                .setSmallIcon(R.drawable.profile)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)
                 .setContentTitle("Hey, "+Name);
 
@@ -232,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         }
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,"n")
                 .setContentText("Your Order for "+Food+" is being Prepared")
-                .setSmallIcon(R.drawable.profile)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)
                 .setContentTitle("Hey,"+Name);
 
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         }
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,"n")
                 .setContentText("Your Order for "+Food+" is Reaching you soon")
-                .setSmallIcon(R.drawable.profile)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)
                 .setContentTitle("Hey,"+Name);
 
@@ -262,7 +264,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         }
         NotificationCompat.Builder builder=new NotificationCompat.Builder(this,"n")
                 .setContentText("Your Order for "+Food+" has been Delivered")
-                .setSmallIcon(R.drawable.profile)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setAutoCancel(true)
                 .setContentTitle("Hey,"+Name);
 

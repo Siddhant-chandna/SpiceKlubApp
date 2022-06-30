@@ -29,9 +29,9 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class LogInActivity extends AppCompatActivity {
-    Button signIn;
+    Button signIn,forgot_btn;
     EditText email,password;
-    TextView signUp;
+    TextView signUp,forgot;
     FirebaseAuth auth;
     ProgressBar progressBar;
     FirebaseFirestore db;
@@ -45,15 +45,54 @@ public class LogInActivity extends AppCompatActivity {
         email=findViewById(R.id.email_login);
         password=findViewById(R.id.password_login);
         signUp=findViewById(R.id.sign_up);
+        forgot=findViewById(R.id.forget);
+        forgot_btn=findViewById(R.id.forget_btn);
+        forgot_btn.setVisibility(View.GONE);
         auth=FirebaseAuth.getInstance();
         progressBar=findViewById(R.id.loginProgress);
         progressBar.setVisibility(View.GONE);
         db= FirebaseFirestore.getInstance();
+        password.setFocusable(true);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LogInActivity.this, SignUpActivity.class));
+            }
+        });
+
+        forgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                password.setFocusable(false);
+                forgot_btn.setVisibility(View.VISIBLE);
+                signIn.setVisibility(View.GONE);
+            }
+        });
+
+        forgot_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String emaill=email.getText().toString();
+                if(TextUtils.isEmpty(emaill)){
+                    Toast.makeText(LogInActivity.this,"Email is Empty!",Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    auth.sendPasswordResetEmail(emaill)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(LogInActivity.this, "Password reset Email sent!", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LogInActivity.this,LogInActivity.class));
+                                    }
+                                    else{
+                                        Toast.makeText(LogInActivity.this, "Email is not registeres with us", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LogInActivity.this,WelcomeActivity.class));
+                                    }
+                                }
+                            });
+                }
             }
         });
 

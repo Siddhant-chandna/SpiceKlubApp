@@ -80,7 +80,12 @@ public class MyOrdersFragment extends Fragment {
 
 
 
-                    Collections.sort(viewOrderModelList);
+                    Collections.sort(viewOrderModelList, new Comparator<ViewOrderModel>() {
+                        @Override
+                        public int compare(ViewOrderModel o1, ViewOrderModel o2) {
+                            return o2.getCurrentDate().compareTo(o1.getCurrentDate());
+                        }
+                    });
 
                 } else {
                     Toast.makeText(getActivity(), "Error:"+task.getException(), Toast.LENGTH_SHORT).show();

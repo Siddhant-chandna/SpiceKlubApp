@@ -77,7 +77,7 @@ public class UserModel {
     }
 
     public void setOrderId(String name) {
-        this.address = name;
+        this.OrderId = name;
     }
 
 //    public String getDiscountedPrice() {
