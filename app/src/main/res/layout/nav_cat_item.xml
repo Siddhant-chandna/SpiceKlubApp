@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#B3FB9F"
+        android:background="#FF0000"
         android:orientation="horizontal">
 
         <ImageView
@@ -64,7 +64,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="20% Off"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/purple_200"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

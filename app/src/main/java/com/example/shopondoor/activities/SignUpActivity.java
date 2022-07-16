@@ -112,6 +112,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 String id=auth.getCurrentUser().getUid();
                                 progressBar.setVisibility(View.GONE);
                                 database.getReference().child("Users").child(id).setValue(userModel);
+                                database.getReference().child("Users").child(id).child("discountedPrice").setValue("0");
                                 Intent phoneeee = new Intent(SignUpActivity.this,Login_Phone.class);
                                 phoneeee.putExtra("phone",phone.getText().toString());
                                 startActivity(phoneeee);
@@ -124,12 +125,8 @@ public class SignUpActivity extends AppCompatActivity {
                                 db.collection("UserId").add(cartMap).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                     @Override
                                     public void onComplete(@NonNull @NotNull Task<DocumentReference> task) {
-                                        Toast.makeText(SignUpActivity.this, "Added", Toast.LENGTH_SHORT).show();
                                     }
-
                                 });
-
-                                Toast.makeText(SignUpActivity.this,"Sign Up Successful",Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 progressBar.setVisibility(View.GONE);

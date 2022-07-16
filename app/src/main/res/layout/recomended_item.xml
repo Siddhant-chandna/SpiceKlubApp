@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="5dp"
-        android:background="#B3FB9F">
+        android:background="#FF0000">
         <ImageView
             android:id="@+id/rec_img"
             android:layout_width="200dp"

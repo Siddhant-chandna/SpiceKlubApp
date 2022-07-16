@@ -196,20 +196,35 @@ public class MyCartFragment extends Fragment  {
         buyNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                database.getReference().child("Users").child(auth.getCurrentUser().getUid())
+                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                double dp;
+                                dp = Double.parseDouble(snapshot.child("discountedPrice").getValue().toString());
+                                if(dp>=100){
+                                    if(myCartModelList.size()>0 && myCartModelList!=null){
+                                        count=1;
+                                        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                            getLocation();
+                                        } else {
+                                            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                else{
+                                    Toast.makeText(getActivity(), "Minimum order value is of Rs. 100", Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
-                if(myCartModelList.size()>0 && myCartModelList!=null){
-                    count=1;
-                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        getLocation();
-                    } else {
-                        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-                    }
-                }
-                else{
-                    Toast.makeText(getActivity(), "Cart is Empty", Toast.LENGTH_SHORT).show();
-                }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
-
+                            }
+                        });
             }
         });
 
@@ -297,8 +312,9 @@ public class MyCartFragment extends Fragment  {
 
 //                                23.374039,85.331263
                                 //29.969513,76.878281
+                                //23.374676,85.331130
 
-                                    distRad=getDistance(23.723976,86.4057984,lat2,lon2);
+                                    distRad=getDistance(23.374676,85.331130,lat2,lon2);
                                     if(distRad<=5){
 
                                         database.getReference().child("Users").child(auth.getCurrentUser().getUid())
@@ -354,8 +370,8 @@ public class MyCartFragment extends Fragment  {
     private void PaymentMethod(String amount,String name,String email,String city,String phone) {
         final Activity activity=getActivity();
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_CB5l3lYsWbEQzk");
-        // rzp_test_BRyGdm2LMgSoUi
+        checkout.setKeyID("rzp_live_KZpydZG7RTs1sp");
+        // rzp_test_BRyGdm2LMgSoUiF
         checkout.setImage(R.drawable.ic_baseline_person_24);
 
 

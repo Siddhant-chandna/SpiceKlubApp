@@ -3,6 +3,7 @@ package com.example.shopondoor.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import java.util.List;
 
 public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder> {
 
+    private static final String TAG = "";
     Context context;
     List<MyCartModel> myCartModelList;
     double totalDiscountAmount = 0;
@@ -55,10 +57,10 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull @NotNull MyCartAdapter.ViewHolder holder, int position) {
+
         totalDiscountAmount=myCartModelList.get(position).getTotaldiscountPrice();
         totalDiscountAmount=Math.floor(totalDiscountAmount * 100)/100;
         discount=discount+totalDiscountAmount;
-
         FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("discountedPrice").setValue(discount);
 
         Glide.with(context).load(myCartModelList.get(position).getProductImage()).into(holder.imageView);
@@ -79,11 +81,15 @@ public class MyCartAdapter extends RecyclerView.Adapter<MyCartAdapter.ViewHolder
                             @Override
                             public void onComplete(@NonNull @NotNull Task<Void> task) {
                                 if(task.isSuccessful()){
+                                    discount=0;
                                     myCartModelList.remove(myCartModelList.get(position));
                                     notifyDataSetChanged();
-                                    if(myCartModelList.size()==0){
-                                        FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("discountedPrice").setValue("0");
-                                    }
+                                    Log.d(TAG, "onComplete: 11eee"+discount);
+                                    Log.d(TAG, "onComplete: 121eee"+totalDiscountAmount);
+                                        if(myCartModelList.isEmpty()){
+                                            FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("discountedPrice").setValue("0");
+                                        }
+//
                                     Toast.makeText(context, "Item Successfully Deleted", Toast.LENGTH_SHORT).show();
                                 }
                                 else{

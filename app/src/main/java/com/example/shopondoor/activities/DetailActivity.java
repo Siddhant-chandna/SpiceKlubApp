@@ -328,7 +328,6 @@ public class DetailActivity extends AppCompatActivity {
             cartMap.put("totaldiscountPrice", totaldiscountprice);
         }
         if(recomendedModel!=null){
-            Log.d(TAG, "addedtoCart: rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
             cartMap.put("productName", recomendedModel.getName());
             cartMap.put("productImage", recomendedModel.getImg_url());
             cartMap.put("productPriceint", priceint);

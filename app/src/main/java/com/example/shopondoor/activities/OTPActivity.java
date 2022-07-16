@@ -120,7 +120,7 @@ public class OTPActivity extends AppCompatActivity {
         mAuth.getCurrentUser().linkWithCredential(credential).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
-                Toast.makeText(OTPActivity.this, "Acccount Created and Linked.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(OTPActivity.this, "SignUp Sucessful", Toast.LENGTH_SHORT).show();
                 // send to dashboard.
 
             }

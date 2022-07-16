@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:background="#B3FB9F">
+        android:background="#FF0000">
 
         <ImageView
             android:id="@+id/view_all_img"
@@ -88,7 +88,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="7dp"
                     android:text="15% Off"
-                    android:textColor="@color/purple_700"
+                    android:textColor="@color/purple_200"
                     android:textSize="20dp"
                     android:textStyle="bold" />
 

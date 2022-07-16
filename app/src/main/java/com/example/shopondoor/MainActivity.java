@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
                 if(Oid.length()>5){
                    String Id=Oid.substring(Oid.length() - 5);
                    String iid=Oid.substring(0,Oid.length()-5);
+                    Log.d(TAG, "onDataChange: eeeeepppp "+Id);
+                    Log.d(TAG, "onDataChange: eee "+iid);
 
                    FirebaseFirestore.getInstance().collection("CurrentUser").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
                            .collection("MyOrder").document(iid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
